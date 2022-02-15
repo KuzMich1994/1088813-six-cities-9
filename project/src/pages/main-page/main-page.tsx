@@ -1,12 +1,12 @@
 import React from 'react';
-import PlaceCard from '../place-card/place-card';
-import Header from '../header/header';
+import PlaceCard from '../../components/place-card/place-card';
+import Header from '../../components/header/header';
 
-type MainScreenProps = {
+type MainPageProps = {
   placeCounter: number;
 }
 
-function MainScreen({placeCounter}: MainScreenProps): JSX.Element {
+function MainPage({placeCounter}: MainPageProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
@@ -88,4 +88,4 @@ function MainScreen({placeCounter}: MainScreenProps): JSX.Element {
   );
 }
 
-export default MainScreen;
+export default MainPage;
