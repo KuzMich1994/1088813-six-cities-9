@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../header/header';
+import Header from '../../components/header/header';
 
-function PropertyScreen(): JSX.Element {
+function PropertyPage(): JSX.Element {
 
   return (
     <div className="page">
@@ -323,4 +323,4 @@ function PropertyScreen(): JSX.Element {
   );
 }
 
-export default PropertyScreen;
+export default PropertyPage;
