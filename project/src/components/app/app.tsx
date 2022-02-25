@@ -6,7 +6,7 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import PropertyPage from '../../pages/property-page/property-page';
 import LoginPage from '../../pages/login-page/login-page';
 import Layout from '../layout/layout';
-import PrivateRoute from '../../hooks/private-route/private-route';
+import PrivateRoute from '../private-route/private-route';
 import {Offer} from '../../types/offer';
 import PropertyContent from '../property-content/property-content';
 import {Comment} from '../../types/comment';
@@ -29,10 +29,9 @@ function App({placeCounter, offers, comments}: AppProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            // <PrivateRoute authorizationStatus={AuthorizationStatus.NotAuthorize}>
-            //   <FavoritesPage/>
-            // </PrivateRoute>
-            <FavoritesPage offers={offers}/>
+            <PrivateRoute authorizationStatus={AuthorizationStatus.NotAuthorize}>
+              <FavoritesPage offers={offers}/>
+            </PrivateRoute>
           }
         />
         <Route

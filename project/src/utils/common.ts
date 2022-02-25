@@ -1,4 +1,2 @@
-export const getRating = (rating: number): number => {
-  return (Math.round(rating) / 5) * 100;
-}
+export const getRating = (rating: number): number => (Math.round(rating) / 5) * 100;
 

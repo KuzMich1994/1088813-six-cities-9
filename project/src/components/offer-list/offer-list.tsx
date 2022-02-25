@@ -8,10 +8,10 @@ type OfferListProps = {
 
 function OfferList({offers}: OfferListProps): JSX.Element {
 
-  let [activeOfferId, setActiveOfferId] = useState<null | number>(null);
+  const [activeOfferId, setActiveOfferId] = useState<null | number>(null);
   const changeIsActive = (id: number) => {
-    setActiveOfferId(activeOfferId = id);
-  }
+    setActiveOfferId(id);
+  };
 
   return (
     <div className="cities__places-list places__list tabs__content">

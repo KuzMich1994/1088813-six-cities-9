@@ -12,13 +12,13 @@ type OfferCardProps = {
 function OfferCard({offer, isActive, changeIsActive}: OfferCardProps): JSX.Element {
 
   return (
-    <article onMouseOver={() => changeIsActive(offer.id)} className={`cities__place-card place-card`}>
+    <article onMouseOver={() => changeIsActive(offer.id)} className='cities__place-card place-card'>
       {offer.isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>
         </div> :
         null}
-      <div className={`cities__image-wrapper place-card__image-wrapper`}>
+      <div className='cities__image-wrapper place-card__image-wrapper'>
         <Link to={`/offer/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt={offer.type} />
         </Link>

@@ -7,10 +7,10 @@ export const comments: Comment[] = [
     id: 1,
     rating: 4,
     user: {
-      avatarUrl: "img/1.png",
+      avatarUrl: 'img/1.png',
       id: 1,
       isPro: false,
-      name: "Oliver.conner",
+      name: 'Oliver.conner',
     },
   },
   {
@@ -19,10 +19,10 @@ export const comments: Comment[] = [
     id: 2,
     rating: 4,
     user: {
-      avatarUrl: "img/1.png",
+      avatarUrl: 'img/1.png',
       id: 1,
       isPro: false,
-      name: "Alex",
+      name: 'Alex',
     },
   },
   {
@@ -31,10 +31,10 @@ export const comments: Comment[] = [
     id: 3,
     rating: 4,
     user: {
-      avatarUrl: "img/1.png",
+      avatarUrl: 'img/1.png',
       id: 3,
       isPro: false,
-      name: "Sergey",
+      name: 'Sergey',
     },
   },
-]
+];

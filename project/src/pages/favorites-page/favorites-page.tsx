@@ -28,26 +28,28 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {uniqueCities.map((city, index) =>
-                <li key={index} className="favorites__locations-items">
-                  <div className="favorites__locations locations locations--current">
-                    <div className="locations__item">
-                      <a className="locations__item-link" href="#">
-                        <span>{city}</span>
-                      </a>
+              {uniqueCities.map((city) =>
+                (
+                  <li key={city} className="favorites__locations-items">
+                    <div className="favorites__locations locations locations--current">
+                      <div className="locations__item">
+                        <a className="locations__item-link" href="#">
+                          <span>{city}</span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                  <div className="favorites__places">
-                    {favoritesOffers.map((offer) =>
-                      offer.city.name === city ?
-                        <FavoriteOfferCard
-                          key={offer.id}
-                          offer={offer}
-                        /> :
-                        '',
-                    )}
-                  </div>
-                </li>
+                    <div className="favorites__places">
+                      {favoritesOffers.map((offer) =>
+                        offer.city.name === city ?
+                          <FavoriteOfferCard
+                            key={offer.id}
+                            offer={offer}
+                          /> :
+                          '',
+                      )}
+                    </div>
+                  </li>
+                ),
               )}
             </ul>
           </section>

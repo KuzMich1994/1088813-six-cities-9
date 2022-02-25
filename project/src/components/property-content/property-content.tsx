@@ -1,6 +1,6 @@
 import React from 'react';
 import {Offer} from '../../types/offer';
-import {useParams} from 'react-router-dom';
+import {Navigate, useParams} from 'react-router-dom';
 import {getRating} from '../../utils/common';
 import {Comment} from '../../types/comment';
 import dayjs from 'dayjs';
@@ -14,30 +14,36 @@ type PropertyContentProps = {
 function PropertyContent({offers, comments}: PropertyContentProps): JSX.Element {
   const {id} = useParams<'id'>();
 
-  const offer = offers.find((offer) => offer.id === +(id || ''));
+  const offer = offers.find((o) => o.id === +(id || ''));
+
+  if (!offer) {
+    return <Navigate to='*'/>;
+  }
 
   return (
     <>
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            {offer && offer.images.map((image, index) =>
-              <div key={index} className="property__image-wrapper">
-                <img className="property__image" src={image} alt="Photo studio" />
-              </div>
+            {offer.images.map((image) =>
+              (
+                <div key={image} className="property__image-wrapper">
+                  <img className="property__image" src={image} alt="studio" />
+                </div>
+              ),
             )}
           </div>
         </div>
         <div className="property__container container">
           <div className="property__wrapper">
-            {offer && offer.isPremium ?
+            {offer.isPremium ?
               <div className="property__mark">
                 <span>Premium</span>
               </div> :
               null}
             <div className="property__name-wrapper">
               <h1 className="property__name">
-                {offer && offer.title}
+                {offer.title}
               </h1>
               <button className="property__bookmark-button button" type="button">
                 <svg className="property__bookmark-icon" width="31" height="33">
@@ -48,53 +54,55 @@ function PropertyContent({offers, comments}: PropertyContentProps): JSX.Element 
             </div>
             <div className="property__rating rating">
               <div className="property__stars rating__stars">
-                <span style={{width: `${offer && getRating(offer.rating)}%`}}/>
+                <span style={{width: `${getRating(offer.rating)}%`}}/>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="property__rating-value rating__value">{offer && offer.rating}</span>
+              <span className="property__rating-value rating__value">{offer.rating}</span>
             </div>
             <ul className="property__features">
               <li className="property__feature property__feature--entire">
-                {offer && offer.type.substring(0, 1).toUpperCase() + offer.type.substring(1)}
+                {offer.type.substring(0, 1).toUpperCase() + offer.type.substring(1)}
               </li>
               <li className="property__feature property__feature--bedrooms">
-                {offer && offer.bedrooms} Bedrooms
+                {offer.bedrooms} Bedrooms
               </li>
               <li className="property__feature property__feature--adults">
-                Max {offer && offer.maxAdults} adults
+                Max {offer.maxAdults} adults
               </li>
             </ul>
             <div className="property__price">
-              <b className="property__price-value">&euro;{offer && offer.price}</b>
+              <b className="property__price-value">&euro;{offer.price}</b>
               <span className="property__price-text">&nbsp;night</span>
             </div>
             <div className="property__inside">
               <h2 className="property__inside-title">What&apos;s inside</h2>
               <ul className="property__inside-list">
-                {offer && offer.goods.map((good, index) =>
-                  <li key={index} className="property__inside-item">
-                    {good}
-                  </li>
+                {offer.goods.map((good) =>
+                  (
+                    <li key={good} className="property__inside-item">
+                      {good}
+                    </li>
+                  ),
                 )}
               </ul>
             </div>
             <div className="property__host">
               <h2 className="property__host-title">Meet the host</h2>
               <div className="property__host-user user">
-                <div className={`property__avatar-wrapper ${offer && offer.host.isPro ? 'property__avatar-wrapper--pro' : null} user__avatar-wrapper`}>
-                  {offer && offer.host.avatarUrl ? <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt={offer.host.name} /> : null}
+                <div className={`property__avatar-wrapper ${offer.host.isPro ? 'property__avatar-wrapper--pro' : null} user__avatar-wrapper`}>
+                  {offer.host.avatarUrl ? <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt={offer.host.name} /> : null}
                 </div>
                 <span className="property__user-name">
-                    {offer && offer.host.name}
-                  </span>
-                {offer && offer.host.isPro ?
+                  {offer.host.name}
+                </span>
+                {offer.host.isPro ?
                   <span className="property__user-status">
                     Pro
                   </span> : null}
               </div>
               <div className="property__description">
                 <p className="property__text">
-                  {offer && offer.description}
+                  {offer.description}
                 </p>
               </div>
             </div>
@@ -102,28 +110,30 @@ function PropertyContent({offers, comments}: PropertyContentProps): JSX.Element 
               <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
               <ul className="reviews__list">
                 {comments.map((comment) =>
-                  <li key={comment.id} className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        {comment.user.avatarUrl ? <img className="reviews__avatar user__avatar" src={comment.user.avatarUrl} width="54" height="54" alt={comment.user.name} /> : null}
-                      </div>
-                      <span className="reviews__user-name">
-                        {comment.user.name}
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: `${getRating(comment.rating)}%`}}/>
-                          <span className="visually-hidden">Rating</span>
+                  (
+                    <li key={comment.id} className="reviews__item">
+                      <div className="reviews__user user">
+                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
+                          {comment.user.avatarUrl ? <img className="reviews__avatar user__avatar" src={comment.user.avatarUrl} width="54" height="54" alt={comment.user.name} /> : null}
                         </div>
+                        <span className="reviews__user-name">
+                          {comment.user.name}
+                        </span>
                       </div>
-                      <p className="reviews__text">
-                        {comment.comment}
-                      </p>
-                      <time className="reviews__time" dateTime={dayjs(comment.date).format('YYYY-MM-DD')}>{dayjs(comment.date).format('MMMM YYYY')}</time>
-                    </div>
-                  </li>
+                      <div className="reviews__info">
+                        <div className="reviews__rating rating">
+                          <div className="reviews__stars rating__stars">
+                            <span style={{width: `${getRating(comment.rating)}%`}}/>
+                            <span className="visually-hidden">Rating</span>
+                          </div>
+                        </div>
+                        <p className="reviews__text">
+                          {comment.comment}
+                        </p>
+                        <time className="reviews__time" dateTime={dayjs(comment.date).format('YYYY-MM-DD')}>{dayjs(comment.date).format('MMMM YYYY')}</time>
+                      </div>
+                    </li>
+                  ),
                 )}
               </ul>
               <ReviewForm/>
@@ -139,7 +149,7 @@ function PropertyContent({offers, comments}: PropertyContentProps): JSX.Element 
             <article className="near-places__card place-card">
               <div className="near-places__image-wrapper place-card__image-wrapper">
                 <a href="#">
-                  <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place image" />
+                  <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place" />
                 </a>
               </div>
               <div className="place-card__info">
@@ -171,7 +181,7 @@ function PropertyContent({offers, comments}: PropertyContentProps): JSX.Element 
             <article className="near-places__card place-card">
               <div className="near-places__image-wrapper place-card__image-wrapper">
                 <a href="#">
-                  <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place image" />
+                  <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place" />
                 </a>
               </div>
               <div className="place-card__info">
@@ -211,7 +221,7 @@ function PropertyContent({offers, comments}: PropertyContentProps): JSX.Element 
                     src="img/apartment-03.jpg"
                     width="260"
                     height="200"
-                    alt="Place image"
+                    alt="Place"
                   />
                 </a>
               </div>
