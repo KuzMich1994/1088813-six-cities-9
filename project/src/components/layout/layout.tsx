@@ -1,11 +1,30 @@
 import React from 'react';
-import {Outlet} from 'react-router-dom';
+import {Outlet, useLocation} from 'react-router-dom';
+import {AppRoute} from '../../const';
 
-type LayoutProps = {
-  classNames: string;
-}
 
-function Layout({classNames}: LayoutProps): JSX.Element {
+function Layout(): JSX.Element {
+  const location = useLocation();
+  let classNames = '';
+
+  switch (location.pathname) {
+    case AppRoute.Root: {
+      classNames = 'page--gray page--main';
+      break;
+    }
+    case AppRoute.Offer: {
+      classNames = '';
+      break;
+    }
+    case AppRoute.Login: {
+      classNames = 'page--gray page--login';
+      break;
+    }
+    case AppRoute.Favorites: {
+      classNames = '';
+      break;
+    }
+  }
 
   return (
     <div className={`page ${classNames}`.trim()}>

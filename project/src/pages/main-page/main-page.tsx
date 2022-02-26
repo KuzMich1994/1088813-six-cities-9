@@ -1,12 +1,14 @@
 import React from 'react';
-import PlaceCard from '../../components/place-card/place-card';
 import Header from '../../components/header/header';
+import {Offer} from '../../types/offer';
+import OfferList from '../../components/offer-list/offer-list';
 
 type MainPageProps = {
   placeCounter: number;
+  offers: Offer[];
 }
 
-function MainPage({placeCounter}: MainPageProps): JSX.Element {
+function MainPage({placeCounter, offers}: MainPageProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
@@ -60,7 +62,7 @@ function MainPage({placeCounter}: MainPageProps): JSX.Element {
                 <span className="places__sorting-type" tabIndex={0}>
                   Popular
                   <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
+                    <use xlinkHref="#icon-arrow-select"/>
                   </svg>
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
@@ -70,13 +72,7 @@ function MainPage({placeCounter}: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard/>
-                <PlaceCard/>
-                <PlaceCard/>
-                <PlaceCard/>
-                <PlaceCard/>
-              </div>
+              <OfferList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
