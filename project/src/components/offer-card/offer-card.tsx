@@ -5,12 +5,11 @@ import {getRating} from '../../utils/common';
 
 type OfferCardProps = {
   offer: Offer;
-  isActive: boolean;
   changeIsActive(id: number): void;
   removeActiveId(): void;
 }
 
-function OfferCard({offer, isActive, changeIsActive, removeActiveId}: OfferCardProps): JSX.Element {
+function OfferCard({offer, changeIsActive, removeActiveId}: OfferCardProps): JSX.Element {
 
   return (
     <article onMouseEnter={() => changeIsActive(offer.id)} onMouseLeave={removeActiveId} className='cities__place-card place-card'>
