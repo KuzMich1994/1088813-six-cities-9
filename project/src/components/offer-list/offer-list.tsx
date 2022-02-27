@@ -13,10 +13,14 @@ function OfferList({offers}: OfferListProps): JSX.Element {
     setActiveOfferId(id);
   };
 
+  const removeActiveId = () => {
+    setActiveOfferId(null);
+  }
+
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((offer) =>
-        <OfferCard key={offer.id} offer={offer} isActive={offer.id === activeOfferId} changeIsActive={changeIsActive} />,
+        <OfferCard key={offer.id} offer={offer} isActive={offer.id === activeOfferId} changeIsActive={changeIsActive} removeActiveId={removeActiveId} />,
       )}
     </div>
   );

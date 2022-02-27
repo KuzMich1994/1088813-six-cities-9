@@ -7,12 +7,13 @@ type OfferCardProps = {
   offer: Offer;
   isActive: boolean;
   changeIsActive(id: number): void;
+  removeActiveId(): void;
 }
 
-function OfferCard({offer, isActive, changeIsActive}: OfferCardProps): JSX.Element {
+function OfferCard({offer, isActive, changeIsActive, removeActiveId}: OfferCardProps): JSX.Element {
 
   return (
-    <article onMouseOver={() => changeIsActive(offer.id)} className='cities__place-card place-card'>
+    <article onMouseEnter={() => changeIsActive(offer.id)} onMouseLeave={removeActiveId} className='cities__place-card place-card'>
       {offer.isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>
