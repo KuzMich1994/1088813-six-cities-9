@@ -9,9 +9,6 @@ type OfferListProps = {
 }
 
 function OfferList({offers, changeIsActive, removeActiveId}: OfferListProps): JSX.Element {
-
-
-
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((offer) =>
