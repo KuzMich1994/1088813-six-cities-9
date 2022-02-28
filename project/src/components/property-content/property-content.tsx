@@ -25,12 +25,14 @@ function PropertyContent({offers, comments}: PropertyContentProps): JSX.Element 
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            {offer.images.map((image) =>
-              (
-                <div key={image} className="property__image-wrapper">
+            {offer.images.map((image, index) => {
+              const imageId = `${image}-${index}`;
+              return(
+                <div key={imageId} className="property__image-wrapper">
                   <img className="property__image" src={image} alt="studio" />
                 </div>
-              ),
+              );
+            },
             )}
           </div>
         </div>

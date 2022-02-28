@@ -10,6 +10,7 @@ import PrivateRoute from '../private-route/private-route';
 import {Offer} from '../../types/offer';
 import PropertyContent from '../property-content/property-content';
 import {Comment} from '../../types/comment';
+import {SyntheticEvent, useState} from 'react';
 
 type AppProps = {
   placeCounter: number;
@@ -18,13 +19,38 @@ type AppProps = {
 }
 
 function App({placeCounter, offers, comments}: AppProps): JSX.Element {
+  const [city, setCity] = useState('Amsterdam');
+  const [activeOfferId, setActiveOfferId] = useState<null | number>(null);
+
+  const changeCity = (e: SyntheticEvent, currentCity: string) => {
+    e.preventDefault();
+    setCity(currentCity);
+  };
+
+  const changeIsActive = (id: number) => {
+    setActiveOfferId(id);
+  };
+
+  const removeActiveId = () => {
+    setActiveOfferId(null);
+  };
 
   return (
     <Routes>
       <Route path={AppRoute.Root} element={<Layout/>}>
         <Route
           path={AppRoute.Root}
-          element={<MainPage placeCounter={placeCounter} offers={offers} />}
+          element={
+            <MainPage
+              placeCounter={placeCounter}
+              offers={offers}
+              currentCity={city}
+              changeCity={changeCity}
+              changeIsActive={changeIsActive}
+              removeActiveId={removeActiveId}
+              activeOfferId={activeOfferId}
+            />
+          }
         />
         <Route
           path={AppRoute.Favorites}

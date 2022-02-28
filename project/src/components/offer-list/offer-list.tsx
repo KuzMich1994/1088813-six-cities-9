@@ -1,22 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Offer} from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
 type OfferListProps = {
   offers: Offer[];
+  changeIsActive(id: number | null): void;
+  removeActiveId(): void;
 }
 
-function OfferList({offers}: OfferListProps): JSX.Element {
-
-  const [activeOfferId, setActiveOfferId] = useState<null | number>(null);
-  const changeIsActive = (id: number) => {
-    setActiveOfferId(id);
-  };
-
+function OfferList({offers, changeIsActive, removeActiveId}: OfferListProps): JSX.Element {
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((offer) =>
-        <OfferCard key={offer.id} offer={offer} isActive={offer.id === activeOfferId} changeIsActive={changeIsActive} />,
+        <OfferCard key={offer.id} offer={offer} changeIsActive={changeIsActive} removeActiveId={removeActiveId} />,
       )}
     </div>
   );
