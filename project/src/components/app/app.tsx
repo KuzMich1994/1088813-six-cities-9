@@ -64,7 +64,16 @@ function App({placeCounter, offers, comments}: AppProps): JSX.Element {
           path={AppRoute.Offer}
           element={<PropertyPage/>}
         >
-          <Route path={':id'} element={<PropertyContent offers={offers} comments={comments}/>}/>
+          <Route path={':id'} element={
+            <PropertyContent
+              offers={offers}
+              comments={comments}
+              activeId={activeOfferId}
+              changeIsActive={changeIsActive}
+              removeActiveId={removeActiveId}
+            />
+          }
+          />
         </Route>
         <Route
           path={AppRoute.Login}

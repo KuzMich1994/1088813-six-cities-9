@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Offer, OfferCity} from '../../types/offer';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -8,9 +8,10 @@ type MapProps = {
   currentOfferCity: OfferCity;
   currentCityOffers: Offer[];
   activeId: number | null;
+  mapSize: string;
 }
 
-function Map({currentOfferCity, currentCityOffers, activeId}: MapProps): JSX.Element {
+function Map({currentOfferCity, currentCityOffers, activeId, mapSize}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentOfferCity);
 
@@ -43,7 +44,7 @@ function Map({currentOfferCity, currentCityOffers, activeId}: MapProps): JSX.Ele
   }, [map, currentCityOffers]);
 
   return (
-    <div ref={mapRef} style={{maxWidth: '512px', overflow: 'hidden', height: '100%'}}>
+    <div ref={mapRef} style={{maxWidth: `${mapSize}`, overflow: 'hidden', height: '100%', margin: 'auto'}}>
 
     </div>
   );

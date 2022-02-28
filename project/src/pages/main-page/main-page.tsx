@@ -65,11 +65,16 @@ function MainPage({placeCounter, offers, currentCity, changeCity, changeIsActive
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <OfferList offers={currentOffers} changeIsActive={changeIsActive} removeActiveId={removeActiveId}/>
+                <OfferList
+                  offers={currentOffers}
+                  changeIsActive={changeIsActive}
+                  removeActiveId={removeActiveId}
+                  classNames={'cities__places-list places__list tabs__content'}
+                />
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map currentOfferCity={currentOfferCity.city} currentCityOffers={currentOffers} activeId={activeOfferId}/>
+                  <Map currentOfferCity={currentOfferCity.city} currentCityOffers={currentOffers} activeId={activeOfferId} mapSize={'512px'}/>
                 </section>
               </div>
             </div>
