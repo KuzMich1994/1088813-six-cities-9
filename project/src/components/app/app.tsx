@@ -20,36 +20,37 @@ type AppProps = {
 
 function App({placeCounter, offers, comments}: AppProps): JSX.Element {
   const [city, setCity] = useState('Amsterdam');
+  const [activeOfferId, setActiveOfferId] = useState<null | number>(null);
 
   const changeCity = (e: SyntheticEvent, currentCity: string) => {
     e.preventDefault();
     setCity(currentCity);
-  }
+  };
 
-  const [activeOfferId, setActiveOfferId] = useState<null | number>(null);
   const changeIsActive = (id: number) => {
     setActiveOfferId(id);
   };
+
   const removeActiveId = () => {
     setActiveOfferId(null);
-  }
-
-  console.log(activeOfferId);
+  };
 
   return (
     <Routes>
       <Route path={AppRoute.Root} element={<Layout/>}>
         <Route
           path={AppRoute.Root}
-          element={<MainPage
-            placeCounter={placeCounter}
-            offers={offers}
-            currentCity={city}
-            changeCity={changeCity}
-            changeIsActive={changeIsActive}
-            removeActiveId={removeActiveId}
-            activeOfferId={activeOfferId}
-          />}
+          element={
+            <MainPage
+              placeCounter={placeCounter}
+              offers={offers}
+              currentCity={city}
+              changeCity={changeCity}
+              changeIsActive={changeIsActive}
+              removeActiveId={removeActiveId}
+              activeOfferId={activeOfferId}
+            />
+          }
         />
         <Route
           path={AppRoute.Favorites}

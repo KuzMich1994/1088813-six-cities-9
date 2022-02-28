@@ -31,8 +31,8 @@ function PropertyContent({offers, comments}: PropertyContentProps): JSX.Element 
                 <div key={imageId} className="property__image-wrapper">
                   <img className="property__image" src={image} alt="studio" />
                 </div>
-              )
-            }
+              );
+            },
             )}
           </div>
         </div>

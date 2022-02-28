@@ -18,4 +18,4 @@ export const CITIES_LIST = [
   'Amsterdam',
   'Hamburg',
   'Dusseldorf',
-]
+];
