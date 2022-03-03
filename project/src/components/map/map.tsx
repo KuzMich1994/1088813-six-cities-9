@@ -23,7 +23,7 @@ function MapComponent({mapSize, points, activeId, offers}: MapProps): JSX.Elemen
       setMapView(cityPoint, map);
       setMarkers(points, map, activeId);
     }
-  }, [map, points, activeId]);
+  }, [map, points, activeId, cityPoint]);
 
   return (
     <div ref={mapRef} style={{maxWidth: `${mapSize}`, overflow: 'hidden', height: '100%', margin: 'auto'}}>

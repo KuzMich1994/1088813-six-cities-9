@@ -1,5 +1,4 @@
-import {LocationOffer, Offer, OfferCity} from '../types/offer';
-import {MapCityPoint, MapPoints} from '../types/map-points';
+import {Offer} from '../types/offer';
 
 export const getRating = (rating: number): number => (Math.round(rating) / 5) * 100;
 export const getOffersByCity = (cityName: string, offers: Offer[]) =>

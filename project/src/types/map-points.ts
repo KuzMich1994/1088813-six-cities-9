@@ -1,5 +1,3 @@
-import {LocationOffer} from './offer';
-
 export type MapPoints = {
   latitude: number;
   longitude: number;

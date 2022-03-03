@@ -7,4 +7,4 @@ export const setMapView = (point: LocationOffer, map: Map) => {
     lat: point.latitude,
     lng: point.longitude,
   });
-}
+};

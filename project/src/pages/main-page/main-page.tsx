@@ -1,11 +1,9 @@
 import React, {SyntheticEvent} from 'react';
 import Header from '../../components/header/header';
-import {LocationOffer, Offer, OfferCity} from '../../types/offer';
+import {Offer} from '../../types/offer';
 import OfferList from '../../components/offer-list/offer-list';
 import {CITIES_LIST} from '../../const';
-import Map from '../../components/map/map';
-import {MapCityPoint, MapPoints} from '../../types/map-points';
-import {getCityPoint} from '../../utils/common';
+import {MapPoints} from '../../types/map-points';
 import MapComponent from '../../components/map/map';
 
 type MainPageProps = {

@@ -5,7 +5,6 @@ import {getOfferPoints, getRating} from '../../utils/common';
 import {Comment} from '../../types/comment';
 import ReviewForm from '../review-form/review-form';
 import Reviews from '../reviews/reviews';
-import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 import MapComponent from '../map/map';
 

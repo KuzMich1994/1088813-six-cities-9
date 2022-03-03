@@ -1,4 +1,4 @@
-import leaflet, {Map} from 'leaflet'
+import leaflet, {Map} from 'leaflet';
 import {MapPoints} from '../../../types/map-points';
 
 export const setMarkers = (points: MapPoints[], map: Map, activeId: number | null) => {
@@ -21,5 +21,5 @@ export const setMarkers = (points: MapPoints[], map: Map, activeId: number | nul
     }, {
       icon: activeId === point.id ? currentMapIcon : defaultMapIcon,
     }).addTo(map);
-  })
-}
+  });
+};

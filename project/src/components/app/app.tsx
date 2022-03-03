@@ -11,8 +11,7 @@ import {Offer} from '../../types/offer';
 import PropertyContent from '../property-content/property-content';
 import {Comment} from '../../types/comment';
 import {SyntheticEvent, useState} from 'react';
-import {getCityPoint, getOfferPoints, getOffersByCity} from '../../utils/common';
-import {MapCityPoint} from '../../types/map-points';
+import {getOfferPoints, getOffersByCity} from '../../utils/common';
 
 type AppProps = {
   offers: Offer[];
