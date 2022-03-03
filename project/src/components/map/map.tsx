@@ -1,47 +1,29 @@
 import React, {useEffect, useRef} from 'react';
-import {Offer, OfferCity} from '../../types/offer';
-import useMap from '../../hooks/use-map';
-import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import {MapPoints} from '../../types/map-points';
+import {Offer} from '../../types/offer';
+import {setMapView} from './helpers/set-map-view';
+import {setMarkers} from './helpers/set-markers';
+import useMap from '../../hooks/use-map';
 
 type MapProps = {
-  currentOfferCity: OfferCity;
-  currentCityOffers: Offer[];
-  activeId: number | null;
   mapSize: string;
+  points: MapPoints[];
+  activeId: number | null;
+  offers: Offer[];
 }
 
-function Map({currentOfferCity, currentCityOffers, activeId, mapSize}: MapProps): JSX.Element {
+function MapComponent({mapSize, points, activeId, offers}: MapProps): JSX.Element {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, currentOfferCity);
-
-  const defaultCustomIcon = leaflet.icon({
-    iconUrl: '/img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const currentCustomIcon = leaflet.icon({
-    iconUrl: '/img/pin-active.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
+  const cityPoint = offers[0].city.location;
+  const map = useMap(mapRef, cityPoint);
 
   useEffect(() => {
     if (map) {
-      currentCityOffers.forEach((currentOffer) => {
-        leaflet
-          .marker({
-            lat: currentOffer.location.latitude,
-            lng: currentOffer.location.longitude,
-          }, {
-            icon: (currentOffer.id === activeId ?
-              currentCustomIcon : defaultCustomIcon
-            ),
-          }).addTo(map);
-      });
+      setMapView(cityPoint, map);
+      setMarkers(points, map, activeId);
     }
-  }, [map, currentCityOffers]);
+  }, [map, points, activeId]);
 
   return (
     <div ref={mapRef} style={{maxWidth: `${mapSize}`, overflow: 'hidden', height: '100%', margin: 'auto'}}>
@@ -50,4 +32,4 @@ function Map({currentOfferCity, currentCityOffers, activeId, mapSize}: MapProps)
   );
 }
 
-export default Map;
+export default MapComponent;
