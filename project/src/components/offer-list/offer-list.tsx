@@ -6,11 +6,12 @@ type OfferListProps = {
   offers: Offer[];
   changeIsActive(id: number | null): void;
   removeActiveId(): void;
+  classNames: string;
 }
 
-function OfferList({offers, changeIsActive, removeActiveId}: OfferListProps): JSX.Element {
+function OfferList({offers, changeIsActive, removeActiveId, classNames}: OfferListProps): JSX.Element {
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={classNames}>
       {offers.map((offer) =>
         <OfferCard key={offer.id} offer={offer} changeIsActive={changeIsActive} removeActiveId={removeActiveId} />,
       )}
