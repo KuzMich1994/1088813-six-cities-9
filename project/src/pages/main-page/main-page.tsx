@@ -1,22 +1,20 @@
-import React, {SyntheticEvent} from 'react';
+import React from 'react';
 import Header from '../../components/header/header';
-import {Offer} from '../../types/offer';
 import OfferList from '../../components/offer-list/offer-list';
-import {CITIES_LIST} from '../../const';
-import {MapPoints} from '../../types/map-points';
 import MapComponent from '../../components/map/map';
+import CitiesList from '../../components/cities-list/cities-list';
+import {useAppSelector} from '../../hooks';
+import {getOfferPoints} from '../../utils/common';
 
 type MainPageProps = {
-  offers: Offer[];
-  currentCity: string;
-  changeCity(e: SyntheticEvent, currentCity: string): void;
   changeIsActive(id: number | null): void;
   removeActiveId(): void;
   activeOfferId: number | null;
-  points: MapPoints[];
 }
 
-function MainPage({points, offers, currentCity, changeCity, changeIsActive, removeActiveId, activeOfferId}: MainPageProps): JSX.Element {
+function MainPage({changeIsActive, removeActiveId, activeOfferId}: MainPageProps): JSX.Element {
+  const city = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.filteredOffers);
 
   return (
     <div className="page page--gray page--main">
@@ -26,19 +24,7 @@ function MainPage({points, offers, currentCity, changeCity, changeIsActive, remo
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {CITIES_LIST.map((city, index) => {
-                const cityId = `${city}-${index}`;
-
-                return(
-                  <li key={cityId} className="locations__item">
-                    <a onClick={(e: SyntheticEvent) => changeCity(e, city)} className={`locations__item-link tabs__item ${currentCity === city ? 'tabs__item--active' : ''}`} href="#">
-                      <span>{city}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
+            <CitiesList/>
           </section>
         </div>
         {offers ?
@@ -46,7 +32,7 @@ function MainPage({points, offers, currentCity, changeCity, changeIsActive, remo
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in {currentCity}</b>
+                <b className="places__found">{offers.length} places to stay in {city}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -71,7 +57,7 @@ function MainPage({points, offers, currentCity, changeCity, changeIsActive, remo
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <MapComponent mapSize={'512px'} points={points} activeId={activeOfferId} offers={offers}/>
+                  <MapComponent mapSize={'512px'} points={getOfferPoints(offers)} activeId={activeOfferId} offers={offers}/>
                 </section>
               </div>
             </div>
