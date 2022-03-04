@@ -10,8 +10,7 @@ import PrivateRoute from '../private-route/private-route';
 import {Offer} from '../../types/offer';
 import PropertyContent from '../property-content/property-content';
 import {Comment} from '../../types/comment';
-import {SyntheticEvent, useState} from 'react';
-import {getOfferPoints, getOffersByCity} from '../../utils/common';
+import {useState} from 'react';
 
 type AppProps = {
   offers: Offer[];
@@ -19,16 +18,7 @@ type AppProps = {
 }
 
 function App({offers, comments}: AppProps): JSX.Element {
-  const [city, setCity] = useState('Amsterdam');
   const [activeOfferId, setActiveOfferId] = useState<null | number>(null);
-
-  const filteredOffers = getOffersByCity(city, offers);
-  const points = getOfferPoints(filteredOffers);
-
-  const changeCity = (e: SyntheticEvent, currentCity: string) => {
-    e.preventDefault();
-    setCity(currentCity);
-  };
 
   const changeIsActive = (id: number) => {
     setActiveOfferId(id);
@@ -45,10 +35,6 @@ function App({offers, comments}: AppProps): JSX.Element {
           path={AppRoute.Root}
           element={
             <MainPage
-              points={points}
-              offers={filteredOffers}
-              currentCity={city}
-              changeCity={changeCity}
               changeIsActive={changeIsActive}
               removeActiveId={removeActiveId}
               activeOfferId={activeOfferId}
@@ -69,8 +55,6 @@ function App({offers, comments}: AppProps): JSX.Element {
         >
           <Route path={':id'} element={
             <PropertyContent
-              cityName={city}
-              offers={filteredOffers}
               comments={comments}
               activeId={activeOfferId}
               changeIsActive={changeIsActive}

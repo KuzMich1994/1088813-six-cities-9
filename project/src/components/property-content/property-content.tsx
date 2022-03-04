@@ -1,5 +1,4 @@
 import React from 'react';
-import {Offer} from '../../types/offer';
 import {Navigate, useParams} from 'react-router-dom';
 import {getOfferPoints, getRating} from '../../utils/common';
 import {Comment} from '../../types/comment';
@@ -7,18 +6,18 @@ import ReviewForm from '../review-form/review-form';
 import Reviews from '../reviews/reviews';
 import OfferList from '../offer-list/offer-list';
 import MapComponent from '../map/map';
+import {useAppSelector} from '../../hooks';
 
 type PropertyContentProps = {
-  offers: Offer[];
   comments: Comment[];
   activeId: number | null;
   changeIsActive(id: number | null): void;
   removeActiveId(): void;
-  cityName: string;
 }
 
-function PropertyContent({offers, comments, activeId, removeActiveId, changeIsActive, cityName}: PropertyContentProps): JSX.Element {
+function PropertyContent({comments, activeId, removeActiveId, changeIsActive}: PropertyContentProps): JSX.Element {
   const {id} = useParams<'id'>();
+  const offers = useAppSelector((state) => state.filteredOffers);
 
   const offer = offers.find((o) => o.id === +(id || ''));
 

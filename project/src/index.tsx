@@ -4,11 +4,15 @@ import App from './components/app/app';
 import {BrowserRouter} from 'react-router-dom';
 import {offers} from './fixture/offers';
 import {comments} from './fixture/comment';
+import {Provider} from 'react-redux';
+import {store} from './store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App offers={offers} comments={comments} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App offers={offers} comments={comments} />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
