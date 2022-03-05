@@ -1,7 +1,7 @@
 import React, {SyntheticEvent} from 'react';
 import {CITIES_LIST} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {cityChange, filterOffers} from '../../store/action';
+import {cityChange} from '../../store/action';
 
 function CitiesList(): JSX.Element {
   const city = useAppSelector((state) => state.city);
@@ -17,13 +17,17 @@ function CitiesList(): JSX.Element {
             <a
               onClick={(e: SyntheticEvent) => {
                 e.preventDefault();
-                const target = e.target as HTMLAnchorElement;
-                if (target.textContent) {
-                  dispatch(cityChange(target.textContent));
-                  dispatch(filterOffers());
+                let target = e.target as HTMLAnchorElement | null;
+                if (target) {
+                  target = target.closest('a');
+                  if (target && target.dataset.name) {
+                    dispatch(cityChange(target.dataset.name));
+                  }
                 }
               }}
-              className={`locations__item-link tabs__item ${city === cityElement ? 'tabs__item--active' : ''}`.trim()} href={`/${cityElement}`}
+              data-name={cityElement}
+              className={`locations__item-link tabs__item ${city === cityElement ? 'tabs__item--active' : ''}`.trim()}
+              href={`/${cityElement}`}
             >
               <span>{cityElement}</span>
             </a>
