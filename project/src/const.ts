@@ -33,3 +33,16 @@ export enum SortType {
   HighToLow = 'Price: high to low',
   TopRated = 'Top rated first',
 }
+
+export const BASE_URL = 'https://9.react.pages.academy/six-cities';
+
+export const REQUEST_TIMEOUT = 5000;
+
+export enum APIRoute {
+  Hotels = '/hotels',
+  Nearby = '/nearby',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+}

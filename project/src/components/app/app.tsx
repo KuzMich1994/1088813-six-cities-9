@@ -11,6 +11,8 @@ import {Offer} from '../../types/offer';
 import PropertyContent from '../property-content/property-content';
 import {Comment} from '../../types/comment';
 import {useState} from 'react';
+import {useAppSelector} from '../../hooks';
+import Spinner from '../spinner/spinner';
 
 type AppProps = {
   offers: Offer[];
@@ -18,6 +20,7 @@ type AppProps = {
 }
 
 function App({offers, comments}: AppProps): JSX.Element {
+  const isDataLoading = useAppSelector((state) => state.isDataLoaded);
   const [activeOfferId, setActiveOfferId] = useState<null | number>(null);
 
   const changeIsActive = (id: number) => {
@@ -27,6 +30,12 @@ function App({offers, comments}: AppProps): JSX.Element {
   const removeActiveId = () => {
     setActiveOfferId(null);
   };
+
+  if (!isDataLoading) {
+    return (
+      <Spinner/>
+    );
+  }
 
   return (
     <Routes>
