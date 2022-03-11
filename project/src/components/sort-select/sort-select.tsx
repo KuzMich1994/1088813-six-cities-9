@@ -59,7 +59,7 @@ function SortSelect(): JSX.Element {
                 changeSelectIsOpen();
               }}
             >
-              {sortType}
+              {sortTypeName}
             </li>
           );
         })}
