@@ -2,12 +2,12 @@ import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {sortingOffers} from '../../store/action';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {SORT_TYPES} from '../../const';
+import {useLocation} from 'react-router-dom';
 
 function SortSelect(): JSX.Element {
-  const sortType = useAppSelector((state) => state.sortType);
+  const {sortType, selectedSortItem} = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const [selectIsOpen, setSelectIsOpen] = useState(false);
-  const [activeSortElement, setActiveSortElement] = useState(0);
 
   const changeSelectIsOpen = () => {
     setSelectIsOpen((prevState) => !prevState);
@@ -25,7 +25,6 @@ function SortSelect(): JSX.Element {
 
     return () => {
       document.removeEventListener('click', (e: MouseEvent) => closeSortSelect(e));
-      setActiveSortElement(0);
     };
   }, [selectIsOpen]);
 
@@ -41,11 +40,10 @@ function SortSelect(): JSX.Element {
       <ul className={`places__options places__options--custom ${selectIsOpen ? 'places__options--opened' : ''}`.trim()}>
         {SORT_TYPES.map((sortTypeName, index) => {
           const sortTypIdx = `${sortTypeName}-${index}`;
-
           return (
             <li
               key={sortTypIdx}
-              className={`places__option ${activeSortElement === index ? 'places__option--active' : ''}`}
+              className={`places__option ${selectedSortItem === index ? 'places__option--active' : ''}`}
               data-sort-type={sortTypeName}
               tabIndex={0}
               onClick={(e: SyntheticEvent) => {
@@ -53,7 +51,6 @@ function SortSelect(): JSX.Element {
                 if (target) {
                   if (target.dataset.sortType) {
                     dispatch(sortingOffers(target.dataset.sortType));
-                    setActiveSortElement(index);
                   }
                 }
                 changeSelectIsOpen();

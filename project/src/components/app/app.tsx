@@ -1,7 +1,7 @@
 import MainPage from '../../pages/main-page/main-page';
 import { Routes, Route} from 'react-router-dom';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import PropertyPage from '../../pages/property-page/property-page';
 import LoginPage from '../../pages/login-page/login-page';
@@ -13,6 +13,7 @@ import {Comment} from '../../types/comment';
 import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner';
+import {isCheckedAuth} from '../../utils/common';
 
 type AppProps = {
   offers: Offer[];
@@ -20,7 +21,7 @@ type AppProps = {
 }
 
 function App({offers, comments}: AppProps): JSX.Element {
-  const isDataLoading = useAppSelector((state) => state.isDataLoaded);
+  const {isDataLoaded, authorizationStatus} = useAppSelector((state) => state);
   const [activeOfferId, setActiveOfferId] = useState<null | number>(null);
 
   const changeIsActive = (id: number) => {
@@ -31,7 +32,7 @@ function App({offers, comments}: AppProps): JSX.Element {
     setActiveOfferId(null);
   };
 
-  if (!isDataLoading) {
+  if (!isDataLoaded || isCheckedAuth(authorizationStatus)) {
     return (
       <Spinner/>
     );
@@ -53,7 +54,7 @@ function App({offers, comments}: AppProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NotAuthorize}>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <FavoritesPage offers={offers}/>
             </PrivateRoute>
           }

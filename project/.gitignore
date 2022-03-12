@@ -14,7 +14,7 @@
 # misc
 Thumbs.db
 .DS_Store
-.env.example
+.env
 *.log*
 
 npm-debug.log*
