@@ -1,6 +1,14 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {cityChange, loadOffers, sortingOffers} from './action';
-import {SortType} from '../const';
+import {
+  cityChange,
+  loadOffers,
+  requireAuthorization,
+  setAvatarUrl,
+  setError,
+  setUserEmail,
+  sortingOffers
+} from './action';
+import {AuthorizationStatus, SortType} from '../const';
 import {Offer} from '../types/offer';
 
 type InitialState = {
@@ -9,6 +17,11 @@ type InitialState = {
   filteredOffers: Offer[];
   sortType: string;
   isDataLoaded: boolean;
+  authorizationStatus: AuthorizationStatus;
+  selectedSortItem: number;
+  error: string;
+  userEmail: string | null;
+  avatarURL: string | null,
 }
 
 const initialState: InitialState = {
@@ -17,6 +30,11 @@ const initialState: InitialState = {
   filteredOffers: [],
   sortType: 'Popular',
   isDataLoaded: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  selectedSortItem: 0,
+  error: '',
+  userEmail: null,
+  avatarURL: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -30,26 +48,43 @@ export const reducer = createReducer(initialState, (builder) => {
       state.city = currentCity.payload;
       state.filteredOffers = state.offers.filter((offer) => offer.city.name === state.city);
       state.sortType = 'Popular';
+      state.selectedSortItem = 0;
     })
     .addCase(sortingOffers, (state, sortType) => {
       switch (sortType.payload) {
         case SortType.LowToHigh: {
           state.filteredOffers = state.filteredOffers.sort((a, b) => a.price > b.price ? 1 : -1);
+          state.selectedSortItem = 1;
           break;
         }
         case SortType.HighToLow: {
           state.filteredOffers = state.filteredOffers.sort((a, b) => a.price < b.price ? 1 : -1);
+          state.selectedSortItem = 2;
           break;
         }
         case SortType.TopRated: {
           state.filteredOffers = state.filteredOffers.sort((a, b) => a.rating < b.rating ? 1 : -1);
+          state.selectedSortItem = 3;
           break;
         }
         case SortType.Popular: {
           state.filteredOffers = state.offers.filter((offer) => offer.city.name === state.city);
+          state.selectedSortItem = 0;
           break;
         }
       }
       state.sortType = sortType.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(setUserEmail, (state, action) => {
+      state.userEmail = action.payload;
+    })
+    .addCase(setAvatarUrl, (state, action) => {
+      state.avatarURL = action.payload;
     });
 });

@@ -1,4 +1,5 @@
 import {Offer} from '../types/offer';
+import {AuthorizationStatus} from '../const';
 
 export const getRating = (rating: number): number => (Math.round(rating) / 5) * 100;
 export const getOffersByCity = (cityName: string, offers: Offer[]) =>
@@ -14,3 +15,5 @@ export const getOfferPoints = (offers: Offer[]) =>
 
 export const getCityPoint = (offers: Offer[], cityName: string) =>
   offers.find((offer) => offer.city.name === cityName);
+
+export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Unknown;
