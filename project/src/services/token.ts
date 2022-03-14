@@ -14,4 +14,4 @@ export const saveToken = (token: Token): void => {
 
 export const dropToken = (): void => {
   localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
-}
+};

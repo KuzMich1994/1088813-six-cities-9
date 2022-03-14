@@ -2,10 +2,10 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {api, store} from './index';
 import {Offer} from '../types/offer';
 import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const';
-import {loadOffers, redirectToRoute, requireAuthorization, setError, setUserEmail} from './action';
+import {loadOffers, redirectToRoute, requireAuthorization, setAvatarUrl, setError, setUserEmail} from './action';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
-import {dropToken, getToken, saveToken} from '../services/token';
+import {dropToken, saveToken} from '../services/token';
 import {errorHandle} from '../services/error-handle';
 
 export const clearErrorAction = createAsyncThunk(
@@ -33,9 +33,10 @@ export const fetchOffersAction = createAsyncThunk(
 export const getUserEmail = createAsyncThunk(
   'user/getUserEmail',
   async () => {
-    const {data: {email}} = await api.get(APIRoute.Login);
+    const {data: {email, avatarUrl}} = await api.get(APIRoute.Login);
     store.dispatch(setUserEmail(email));
-  }
+    store.dispatch(setAvatarUrl(avatarUrl));
+  },
 );
 
 export const checkAuthStatus = createAsyncThunk(
@@ -44,12 +45,11 @@ export const checkAuthStatus = createAsyncThunk(
     try {
       await api.get(APIRoute.Login);
       store.dispatch(requireAuthorization(AuthorizationStatus.Authorize));
-      store.dispatch(getUserEmail());
     } catch (error) {
       errorHandle(error);
       store.dispatch(requireAuthorization(AuthorizationStatus.NotAuthorize));
     }
-  }
+  },
 );
 
 export const loginAction = createAsyncThunk(
@@ -59,12 +59,13 @@ export const loginAction = createAsyncThunk(
       const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
       saveToken(token);
       store.dispatch(requireAuthorization(AuthorizationStatus.Authorize));
+      store.dispatch(getUserEmail());
       store.dispatch(redirectToRoute(AppRoute.Root));
     } catch (error) {
       errorHandle(error);
       store.dispatch(requireAuthorization(AuthorizationStatus.NotAuthorize));
     }
-  }
+  },
 );
 
 export const logoutAction = createAsyncThunk(
@@ -77,5 +78,5 @@ export const logoutAction = createAsyncThunk(
     } catch (error) {
       errorHandle(error);
     }
-  }
-)
+  },
+);

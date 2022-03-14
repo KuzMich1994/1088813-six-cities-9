@@ -13,7 +13,8 @@ function ErrorMessage(): JSX.Element | null {
         backgroundColor: 'red',
         color: 'white',
         padding: '10px',
-      }}>
+      }}
+      >
         {error}
       </div>
     );

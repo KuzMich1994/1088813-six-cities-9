@@ -1,13 +1,15 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, {SyntheticEvent} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch} from '../../hooks';
 import {store} from '../../store';
-import {getUserEmail} from '../../store/async-actions';
+import {logoutAction} from '../../store/async-actions';
+import {setAvatarUrl, setUserEmail} from '../../store/action';
+import UserProfile from './-user-profile/user-profile';
 
 function Header(): JSX.Element {
-
-  const userEmail = useAppSelector((state) => state.userEmail);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return (
     <header className="header">
@@ -21,20 +23,17 @@ function Header(): JSX.Element {
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user">
-                {
-                  userEmail ?
-                    <Link className="header__nav-link header__nav-link--profile" to="/">
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
-                      <span className="header__user-name user__name">{userEmail}</span>
-                    </Link> :
-                    <Link to={AppRoute.Login} className={'header__nav-link'}>
-                      <span className={'header__user-name user__name'}>Login</span>
-                    </Link>
-                }
+                <UserProfile/>
               </li>
               <li className="header__nav-item">
-                <a className="header__nav-link" href="#">
+                <a onClick={(e: SyntheticEvent) => {
+                  e.preventDefault();
+                  dispatch(logoutAction());
+                  navigate(AppRoute.Login);
+                  store.dispatch(setUserEmail(null));
+                  store.dispatch(setAvatarUrl(null));
+                }} className="header__nav-link" href="/signOut"
+                >
                   <span className="header__signout">Sign out</span>
                 </a>
               </li>

@@ -1,10 +1,9 @@
 import React, {FormEvent, useRef} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch} from '../../hooks';
 import {AuthData} from '../../types/auth-data';
-import {checkAuthStatus, getUserEmail, loginAction} from '../../store/async-actions';
-import {store} from '../../store';
+import {loginAction} from '../../store/async-actions';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);

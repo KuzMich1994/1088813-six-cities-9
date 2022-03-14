@@ -10,10 +10,10 @@ export interface HistoryRouteProps {
 }
 
 function HistoryRoute ({
-    basename,
-    children,
-    history,
-  }: HistoryRouteProps) {
+  basename,
+  children,
+  history,
+}: HistoryRouteProps) {
   const [state, setState] = useState({
     action: history.action,
     location: history.location,

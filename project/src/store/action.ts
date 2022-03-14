@@ -10,3 +10,4 @@ export const requireAuthorization = createAction<AuthorizationStatus>('user/requ
 export const setError = createAction<string>('favorites/setError');
 export const redirectToRoute = createAction<AppRoute>('app/redirectToRoute');
 export const setUserEmail = createAction<string | null>('user/setUserEmail');
+export const setAvatarUrl = createAction<string | null>('user/setAvatarUrl');

@@ -1,9 +1,15 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {cityChange, loadOffers, requireAuthorization, setError, setUserEmail, sortingOffers} from './action';
+import {
+  cityChange,
+  loadOffers,
+  requireAuthorization,
+  setAvatarUrl,
+  setError,
+  setUserEmail,
+  sortingOffers
+} from './action';
 import {AuthorizationStatus, SortType} from '../const';
 import {Offer} from '../types/offer';
-import {store} from './index';
-import {getUserEmail} from './async-actions';
 
 type InitialState = {
   city: string;
@@ -15,6 +21,7 @@ type InitialState = {
   selectedSortItem: number;
   error: string;
   userEmail: string | null;
+  avatarURL: string | null,
 }
 
 const initialState: InitialState = {
@@ -27,6 +34,7 @@ const initialState: InitialState = {
   selectedSortItem: 0,
   error: '',
   userEmail: null,
+  avatarURL: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -75,5 +83,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserEmail, (state, action) => {
       state.userEmail = action.payload;
+    })
+    .addCase(setAvatarUrl, (state, action) => {
+      state.avatarURL = action.payload;
     });
 });

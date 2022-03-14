@@ -2,7 +2,6 @@ import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {sortingOffers} from '../../store/action';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {SORT_TYPES} from '../../const';
-import {useLocation} from 'react-router-dom';
 
 function SortSelect(): JSX.Element {
   const {sortType, selectedSortItem} = useAppSelector((state) => state);
@@ -13,20 +12,23 @@ function SortSelect(): JSX.Element {
     setSelectIsOpen((prevState) => !prevState);
   };
 
-  useEffect(() => {
-    const closeSortSelect = (e: MouseEvent) => {
-      const target = e.target as HTMLFormElement;
-      if (!target.closest('.places__sorting')) {
-        setSelectIsOpen(false);
-      }
-    };
+  const closeSortSelect = (e: MouseEvent) => {
+    const target = e.target as HTMLFormElement;
+    if (!target.closest('.places__sorting')) {
+      setSelectIsOpen(false);
+    }
 
-    document.addEventListener('click', (e: MouseEvent) => closeSortSelect(e));
+  };
+
+  useEffect(() => {
+    const effect = closeSortSelect;
+
+    document.addEventListener('click', (e: MouseEvent) => effect(e));
 
     return () => {
-      document.removeEventListener('click', (e: MouseEvent) => closeSortSelect(e));
+      document.removeEventListener('click', (e: MouseEvent) => effect(e));
     };
-  }, [selectIsOpen]);
+  }, []);
 
   return (
     <form className="places__sorting" action="#" method="get">

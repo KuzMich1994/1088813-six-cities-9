@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosProxyConfig, AxiosRequestConfig} from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import {BASE_URL, REQUEST_TIMEOUT} from '../const';
 import {getToken} from './token';
 
@@ -18,8 +18,8 @@ export const createAPI = (): AxiosInstance => {
       }
 
       return config;
-    }
-  )
+    },
+  );
 
   return api;
 };
