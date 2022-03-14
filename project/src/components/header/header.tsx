@@ -8,6 +8,7 @@ import {setAvatarUrl, setUserEmail} from '../../store/action';
 import UserProfile from './-user-profile/user-profile';
 
 function Header(): JSX.Element {
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
