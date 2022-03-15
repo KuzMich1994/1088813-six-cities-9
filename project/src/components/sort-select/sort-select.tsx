@@ -27,6 +27,7 @@ function SortSelect(): JSX.Element {
 
     return () => {
       document.removeEventListener('click', (e: MouseEvent) => effect(e));
+      setSelectIsOpen(false);
     };
   }, []);
 

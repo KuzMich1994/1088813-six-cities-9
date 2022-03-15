@@ -1,4 +1,7 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {pushNewComment} from '../../store/async-actions';
+import {useParams} from 'react-router-dom';
 
 const STARS_MAX_COUNT = [
   5,
@@ -9,11 +12,18 @@ const STARS_MAX_COUNT = [
 ];
 
 function ReviewForm(): JSX.Element {
+  const {id} = useParams<'id'>();
+
+  const {offerReviews, userData} = useAppSelector((state) => state);
 
   const [formData, setFormData] = useState({
     review: '',
     rating: '',
   });
+
+  const dispatch = useAppDispatch();
+
+  console.log(formData.review)
 
   const fieldChangeHandle = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
@@ -22,7 +32,12 @@ function ReviewForm(): JSX.Element {
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form onSubmit={(e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (userData && id) {
+        dispatch(pushNewComment({comment: formData.review, rating: +formData.rating, user: userData, id: offerReviews.length + 1, date: new Date().getTime().toLocaleString()}))
+      }
+    }} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {STARS_MAX_COUNT.map((starCount) =>

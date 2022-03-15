@@ -1,15 +1,17 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {
-  cityChange,
+  changeDataLoaded,
+  cityChange, loadCurrentOffer, loadNeighborhoodOffers, loadOfferReviews,
   loadOffers,
   requireAuthorization,
   setAvatarUrl,
-  setError,
+  setError, setOfferId, setUserData,
   setUserEmail,
   sortingOffers
 } from './action';
 import {AuthorizationStatus, SortType} from '../const';
 import {Offer} from '../types/offer';
+import {Comment, User} from '../types/comment';
 
 type InitialState = {
   city: string;
@@ -22,6 +24,10 @@ type InitialState = {
   error: string;
   userEmail: string | null;
   avatarURL: string | null,
+  currentOffer: Offer | null;
+  neighborhoodOffers: Offer[] | null;
+  offerReviews: Comment[];
+  userData: User | null;
 }
 
 const initialState: InitialState = {
@@ -35,6 +41,10 @@ const initialState: InitialState = {
   error: '',
   userEmail: null,
   avatarURL: null,
+  currentOffer: null,
+  neighborhoodOffers: null,
+  offerReviews: [],
+  userData: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -86,5 +96,21 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setAvatarUrl, (state, action) => {
       state.avatarURL = action.payload;
+    })
+    .addCase(setUserData, (state, action) => {
+      state.userData = action.payload;
+    })
+    .addCase(loadCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload;
+      state.isDataLoaded = true;
+    })
+    .addCase(changeDataLoaded, (state, action) => {
+      state.isDataLoaded = action.payload;
+    })
+    .addCase(loadNeighborhoodOffers, (state, action) => {
+      state.neighborhoodOffers = action.payload;
+    })
+    .addCase(loadOfferReviews, (state, action) => {
+      state.offerReviews = action.payload;
     });
 });
