@@ -2,6 +2,7 @@ import React, {ChangeEvent, FormEvent, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {pushNewComment} from '../../store/async-actions';
 import {useParams} from 'react-router-dom';
+import {changeReviewsLoaded} from '../../store/action';
 
 const STARS_MAX_COUNT = [
   5,
@@ -14,16 +15,15 @@ const STARS_MAX_COUNT = [
 function ReviewForm(): JSX.Element {
   const {id} = useParams<'id'>();
 
-  const {offerReviews, userData} = useAppSelector((state) => state);
-
-  const [formData, setFormData] = useState({
+  const {userData} = useAppSelector((state) => state);
+  const initialState = {
     review: '',
     rating: '',
-  });
+  };
+
+  const [formData, setFormData] = useState(initialState);
 
   const dispatch = useAppDispatch();
-
-  console.log(formData.review)
 
   const fieldChangeHandle = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
@@ -32,18 +32,31 @@ function ReviewForm(): JSX.Element {
   };
 
   return (
-    <form onSubmit={(e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (userData && id) {
-        dispatch(pushNewComment({comment: formData.review, rating: +formData.rating, user: userData, id: offerReviews.length + 1, date: new Date().getTime().toLocaleString()}))
-      }
-    }} className="reviews__form form" action="#" method="post">
+    <form
+      onSubmit={(e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (userData && id) {
+          dispatch(changeReviewsLoaded(false));
+          dispatch(
+            pushNewComment(
+              {
+                comment: formData.review,
+                rating: +formData.rating,
+                id: +id,
+              },
+            ),
+          );
+          setFormData(initialState);
+        }
+      }}
+      className="reviews__form form" action="#" method="post"
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {STARS_MAX_COUNT.map((starCount) =>
           (
             <React.Fragment key={starCount}>
-              <input onChange={fieldChangeHandle} className="form__rating-input visually-hidden" name="rating" value={starCount} id={`${starCount}-stars`} type="radio" />
+              <input onChange={fieldChangeHandle} className="form__rating-input visually-hidden" name="rating" value={starCount} id={`${starCount}-stars`} type="radio" checked={+formData.rating === starCount} />
               <label htmlFor={`${starCount}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
                 <svg className="form__star-image" width="37" height="33">
                   <use xlinkHref="#icon-star"/>
@@ -53,7 +66,7 @@ function ReviewForm(): JSX.Element {
           ),
         )}
       </div>
-      <textarea onChange={fieldChangeHandle} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"/>
+      <textarea onChange={fieldChangeHandle} className="reviews__textarea form__textarea" value={formData.review} id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"/>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and

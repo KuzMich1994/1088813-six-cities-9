@@ -2,10 +2,9 @@ import React, {SyntheticEvent} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {useAppDispatch} from '../../hooks';
-import {store} from '../../store';
 import {logoutAction} from '../../store/async-actions';
-import {setAvatarUrl, setUserEmail} from '../../store/action';
 import UserProfile from './-user-profile/user-profile';
+import {setUserData} from '../../store/action';
 
 function Header(): JSX.Element {
 
@@ -31,8 +30,7 @@ function Header(): JSX.Element {
                   e.preventDefault();
                   dispatch(logoutAction());
                   navigate(AppRoute.Login);
-                  store.dispatch(setUserEmail(null));
-                  store.dispatch(setAvatarUrl(null));
+                  dispatch(setUserData(null));
                 }} className="header__nav-link" href="/signOut"
                 >
                   <span className="header__signout">Sign out</span>

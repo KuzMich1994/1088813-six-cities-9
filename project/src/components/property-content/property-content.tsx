@@ -1,7 +1,6 @@
-import React, {useEffect, useMemo} from 'react';
-import {Navigate, useParams} from 'react-router-dom';
-import {getOfferPoints, getRating, isAuthorize, isCheckedAuth} from '../../utils/common';
-import {Comment} from '../../types/comment';
+import React, {useEffect} from 'react';
+import {useParams} from 'react-router-dom';
+import {getOfferPoints, getRating, isAuthorize} from '../../utils/common';
 import ReviewForm from '../review-form/review-form';
 import Reviews from '../reviews/reviews';
 import OfferList from '../offer-list/offer-list';
@@ -9,9 +8,6 @@ import MapComponent from '../map/map';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner';
 import {fetchCurrentOffer, fetchNeighborhoodOffers, getOfferReviews} from '../../store/async-actions';
-import {Offer} from '../../types/offer';
-import {store} from '../../store';
-import {changeDataLoaded, setOfferId} from '../../store/action';
 
 type PropertyContentProps = {
   activeId: number | null;
@@ -20,21 +16,24 @@ type PropertyContentProps = {
 }
 
 function PropertyContent({activeId, changeIsActive, removeActiveId}: PropertyContentProps): JSX.Element {
+
   const {id} = useParams<'id'>();
   const dispatch = useAppDispatch();
-  if (id) {
-    useMemo(() => {
+
+  useEffect(() => {
+    if (id) {
       dispatch(fetchCurrentOffer(id));
       dispatch(fetchNeighborhoodOffers(id));
       dispatch(getOfferReviews(id));
-    }, []);
-  }
+    }
+  }, [id, dispatch]);
+
   const {currentOffer, isDataLoaded, neighborhoodOffers, authorizationStatus, offerReviews} = useAppSelector((state) => state);
 
   const points = neighborhoodOffers && getOfferPoints(neighborhoodOffers);
 
   if (!isDataLoaded || !currentOffer || !neighborhoodOffers) {
-    return <Spinner/>
+    return <Spinner/>;
   }
 
   return (
@@ -126,7 +125,7 @@ function PropertyContent({activeId, changeIsActive, removeActiveId}: PropertyCon
               </div>
             </div>
             <section className="property__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerReviews.length}</span></h2>
               {offerReviews ? <Reviews comments={offerReviews}/> : null}
               {isAuthorize(authorizationStatus) ? <ReviewForm/> : null}
             </section>

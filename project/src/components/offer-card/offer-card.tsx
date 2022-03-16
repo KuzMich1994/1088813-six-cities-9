@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Offer} from '../../types/offer';
 import {getRating} from '../../utils/common';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch} from '../../hooks';
 import {fetchCurrentOffer} from '../../store/async-actions';
 import {store} from '../../store';
 import {changeDataLoaded} from '../../store/action';
@@ -17,10 +17,14 @@ function OfferCard({offer, changeIsActive, removeActiveId}: OfferCardProps): JSX
   const dispatch = useAppDispatch();
 
   return (
-    <article onMouseEnter={() => changeIsActive(offer.id)} onMouseLeave={removeActiveId} onClick={() => {
-      store.dispatch(changeDataLoaded(false));
-      dispatch(fetchCurrentOffer(String(offer.id)));
-    }} className='cities__place-card place-card'>
+    <article
+      onMouseEnter={() => changeIsActive(offer.id)} onMouseLeave={removeActiveId}
+      onClick={() => {
+        store.dispatch(changeDataLoaded(false));
+        dispatch(fetchCurrentOffer(String(offer.id)));
+      }}
+      className='cities__place-card place-card'
+    >
       {offer.isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>

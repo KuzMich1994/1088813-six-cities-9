@@ -1,15 +1,13 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {api, store} from './index';
 import {Offer} from '../types/offer';
-import {Comment} from '../types/comment';
+import {Comment, PostComment} from '../types/comment';
 import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const';
 import {
   loadOffers,
   redirectToRoute,
   requireAuthorization,
-  setAvatarUrl,
   setError,
-  setUserEmail,
   loadCurrentOffer,
   loadNeighborhoodOffers, loadOfferReviews, setUserData
 } from './action';
@@ -79,25 +77,22 @@ export const getOfferReviews = createAsyncThunk(
 
 export const pushNewComment = createAsyncThunk(
   'data/pushNewComment',
-  async (comment: Comment) => {
+  async ({comment, rating, id}: PostComment) => {
     try {
-      console.log(comment)
-      await api.post<Comment>(APIRoute.Comments, {comment});
+      await api.post<PostComment>(`${APIRoute.Comments}/${id}`, {comment, rating});
+      store.dispatch(getOfferReviews(String(id)));
+      store.dispatch(redirectToRoute(`${AppRoute.Offer}/${id}`));
     } catch (error) {
       errorHandle(error);
     }
-  }
-)
+  },
+);
 
 export const getUserEmail = createAsyncThunk(
   'user/getUserEmail',
   async () => {
-    const {data: {email, avatarUrl}} = await api.get(APIRoute.Login);
-    const {data} = await api.get(APIRoute.Login);
-    store.dispatch(setUserEmail(email));
-    store.dispatch(setAvatarUrl(avatarUrl));
-    store.dispatch(setUserData(data));
-    console.log(data)
+    const {data: {avatarUrl, id, isPro, name}} = await api.get(APIRoute.Login);
+    store.dispatch(setUserData({avatarUrl, id, name, isPro}));
   },
 );
 

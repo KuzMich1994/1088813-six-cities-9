@@ -12,3 +12,9 @@ export type Comment = {
   rating: number;
   user: User;
 }
+
+export type PostComment = {
+  comment: string;
+  rating: number;
+  id: number;
+}

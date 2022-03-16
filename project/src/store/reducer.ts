@@ -1,12 +1,10 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {
-  changeDataLoaded,
+  changeDataLoaded, changeReviewsLoaded,
   cityChange, loadCurrentOffer, loadNeighborhoodOffers, loadOfferReviews,
   loadOffers,
   requireAuthorization,
-  setAvatarUrl,
-  setError, setOfferId, setUserData,
-  setUserEmail,
+  setError, setUserData,
   sortingOffers
 } from './action';
 import {AuthorizationStatus, SortType} from '../const';
@@ -28,6 +26,7 @@ type InitialState = {
   neighborhoodOffers: Offer[] | null;
   offerReviews: Comment[];
   userData: User | null;
+  isReviewsLoaded: boolean;
 }
 
 const initialState: InitialState = {
@@ -45,6 +44,7 @@ const initialState: InitialState = {
   neighborhoodOffers: null,
   offerReviews: [],
   userData: null,
+  isReviewsLoaded: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -91,12 +91,6 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(setUserEmail, (state, action) => {
-      state.userEmail = action.payload;
-    })
-    .addCase(setAvatarUrl, (state, action) => {
-      state.avatarURL = action.payload;
-    })
     .addCase(setUserData, (state, action) => {
       state.userData = action.payload;
     })
@@ -107,10 +101,14 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeDataLoaded, (state, action) => {
       state.isDataLoaded = action.payload;
     })
+    .addCase(changeReviewsLoaded, (state, action) => {
+      state.isReviewsLoaded = action.payload;
+    })
     .addCase(loadNeighborhoodOffers, (state, action) => {
       state.neighborhoodOffers = action.payload;
     })
     .addCase(loadOfferReviews, (state, action) => {
       state.offerReviews = action.payload;
+      state.isReviewsLoaded = true;
     });
 });
