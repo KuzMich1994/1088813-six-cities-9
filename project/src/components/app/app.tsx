@@ -65,7 +65,6 @@ function App({offers, comments}: AppProps): JSX.Element {
         >
           <Route path={':id'} element={
             <PropertyContent
-              comments={comments}
               activeId={activeOfferId}
               changeIsActive={changeIsActive}
               removeActiveId={removeActiveId}

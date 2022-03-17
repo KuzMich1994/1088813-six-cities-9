@@ -1,4 +1,4 @@
-type User = {
+export type User = {
   avatarUrl: string;
   id: number;
   isPro: boolean;
@@ -11,4 +11,10 @@ export type Comment = {
   id: number;
   rating: number;
   user: User;
+}
+
+export type PostComment = {
+  comment: string;
+  rating: number;
+  id: number;
 }

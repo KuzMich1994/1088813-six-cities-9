@@ -1,38 +1,47 @@
-import React from 'react';
-import {Navigate, useParams} from 'react-router-dom';
-import {getOfferPoints, getRating} from '../../utils/common';
-import {Comment} from '../../types/comment';
+import React, {useEffect} from 'react';
+import {useParams} from 'react-router-dom';
+import {getOfferPoints, getRating, isAuthorize} from '../../utils/common';
 import ReviewForm from '../review-form/review-form';
 import Reviews from '../reviews/reviews';
 import OfferList from '../offer-list/offer-list';
 import MapComponent from '../map/map';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import Spinner from '../spinner/spinner';
+import {fetchCurrentOffer, fetchNeighborhoodOffers, getOfferReviews} from '../../store/async-actions';
 
 type PropertyContentProps = {
-  comments: Comment[];
   activeId: number | null;
   changeIsActive(id: number | null): void;
   removeActiveId(): void;
 }
 
-function PropertyContent({comments, activeId, removeActiveId, changeIsActive}: PropertyContentProps): JSX.Element {
+function PropertyContent({activeId, changeIsActive, removeActiveId}: PropertyContentProps): JSX.Element {
+
   const {id} = useParams<'id'>();
-  const offers = useAppSelector((state) => state.filteredOffers);
+  const dispatch = useAppDispatch();
 
-  const offer = offers.find((o) => o.id === +(id || ''));
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchCurrentOffer(id));
+      dispatch(fetchNeighborhoodOffers(id));
+      dispatch(getOfferReviews(id));
+    }
+  }, [id, dispatch]);
 
-  if (!offer) {
-    return <Navigate to='*'/>;
+  const {currentOffer, isDataLoaded, neighborhoodOffers, authorizationStatus, offerReviews} = useAppSelector((state) => state);
+
+  const points = neighborhoodOffers && getOfferPoints(neighborhoodOffers);
+
+  if (!isDataLoaded || !currentOffer || !neighborhoodOffers) {
+    return <Spinner/>;
   }
-  const neighborhoodOffers = offers.filter((o) => o.id !== +(id || ''));
-  const points = getOfferPoints(neighborhoodOffers);
 
   return (
     <>
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            {offer.images.map((image, index) => {
+            {currentOffer.images.map((image, index) => {
               const imageId = `${image}-${index}`;
               return(
                 <div key={imageId} className="property__image-wrapper">
@@ -45,14 +54,14 @@ function PropertyContent({comments, activeId, removeActiveId, changeIsActive}: P
         </div>
         <div className="property__container container">
           <div className="property__wrapper">
-            {offer.isPremium ?
+            {currentOffer.isPremium ?
               <div className="property__mark">
                 <span>Premium</span>
               </div> :
               null}
             <div className="property__name-wrapper">
               <h1 className="property__name">
-                {offer.title}
+                {currentOffer.title}
               </h1>
               <button className="property__bookmark-button button" type="button">
                 <svg className="property__bookmark-icon" width="31" height="33">
@@ -63,30 +72,30 @@ function PropertyContent({comments, activeId, removeActiveId, changeIsActive}: P
             </div>
             <div className="property__rating rating">
               <div className="property__stars rating__stars">
-                <span style={{width: `${getRating(offer.rating)}%`}}/>
+                <span style={{width: `${getRating(currentOffer.rating)}%`}}/>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="property__rating-value rating__value">{offer.rating}</span>
+              <span className="property__rating-value rating__value">{currentOffer.rating}</span>
             </div>
             <ul className="property__features">
               <li className="property__feature property__feature--entire">
-                {offer.type.substring(0, 1).toUpperCase() + offer.type.substring(1)}
+                {currentOffer.type.substring(0, 1).toUpperCase() + currentOffer.type.substring(1)}
               </li>
               <li className="property__feature property__feature--bedrooms">
-                {offer.bedrooms} Bedrooms
+                {currentOffer.bedrooms} Bedrooms
               </li>
               <li className="property__feature property__feature--adults">
-                Max {offer.maxAdults} adults
+                Max {currentOffer.maxAdults} adults
               </li>
             </ul>
             <div className="property__price">
-              <b className="property__price-value">&euro;{offer.price}</b>
+              <b className="property__price-value">&euro;{currentOffer.price}</b>
               <span className="property__price-text">&nbsp;night</span>
             </div>
             <div className="property__inside">
               <h2 className="property__inside-title">What&apos;s inside</h2>
               <ul className="property__inside-list">
-                {offer.goods.map((good) =>
+                {currentOffer.goods.map((good) =>
                   (
                     <li key={good} className="property__inside-item">
                       {good}
@@ -98,32 +107,32 @@ function PropertyContent({comments, activeId, removeActiveId, changeIsActive}: P
             <div className="property__host">
               <h2 className="property__host-title">Meet the host</h2>
               <div className="property__host-user user">
-                <div className={`property__avatar-wrapper ${offer.host.isPro ? 'property__avatar-wrapper--pro' : null} user__avatar-wrapper`}>
-                  {offer.host.avatarUrl ? <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt={offer.host.name} /> : null}
+                <div className={`property__avatar-wrapper ${currentOffer.host.isPro ? 'property__avatar-wrapper--pro' : null} user__avatar-wrapper`}>
+                  {currentOffer.host.avatarUrl ? <img className="property__avatar user__avatar" src={currentOffer.host.avatarUrl} width="74" height="74" alt={currentOffer.host.name} /> : null}
                 </div>
                 <span className="property__user-name">
-                  {offer.host.name}
+                  {currentOffer.host.name}
                 </span>
-                {offer.host.isPro ?
+                {currentOffer.host.isPro ?
                   <span className="property__user-status">
                     Pro
                   </span> : null}
               </div>
               <div className="property__description">
                 <p className="property__text">
-                  {offer.description}
+                  {currentOffer.description}
                 </p>
               </div>
             </div>
             <section className="property__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-              <Reviews comments={comments}/>
-              <ReviewForm/>
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerReviews.length}</span></h2>
+              {offerReviews ? <Reviews comments={offerReviews}/> : null}
+              {isAuthorize(authorizationStatus) ? <ReviewForm/> : null}
             </section>
           </div>
         </div>
         <section className="property__map map">
-          <MapComponent activeId={activeId} offers={neighborhoodOffers} points={points} mapSize={'92%'}/>
+          {points ? <MapComponent activeId={activeId} offers={neighborhoodOffers} points={points} mapSize={'92%'}/> : null}
         </section>
       </section>
       <div className="container">

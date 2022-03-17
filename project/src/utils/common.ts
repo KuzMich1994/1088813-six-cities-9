@@ -17,3 +17,4 @@ export const getCityPoint = (offers: Offer[], cityName: string) =>
   offers.find((offer) => offer.city.name === cityName);
 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Unknown;
+export const isAuthorize = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Authorize;
