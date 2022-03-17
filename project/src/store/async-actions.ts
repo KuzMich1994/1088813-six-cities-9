@@ -2,29 +2,15 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {api, store} from './index';
 import {Offer} from '../types/offer';
 import {Comment, PostComment} from '../types/comment';
-import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const';
-import {
-  loadOffers,
-  redirectToRoute,
-  requireAuthorization,
-  setError,
-  loadCurrentOffer,
-  loadNeighborhoodOffers, loadOfferReviews, setUserData
-} from './action';
+import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
+import {loadOffers, loadCurrentOffer, loadNeighborhoodOffers} from './data-process/data-process';
+import {redirectToRoute} from './action';
+import {requireAuthorization, setUserData} from './user-process/user-process';
+import {loadOfferReviews} from './reviews-process/reviews-process';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
 import {dropToken, saveToken} from '../services/token';
 import {errorHandle} from '../services/error-handle';
-
-export const clearErrorAction = createAsyncThunk(
-  'favorites/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError('')),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
-);
 
 export const fetchOffersAction = createAsyncThunk(
   'data/fetchOffers',

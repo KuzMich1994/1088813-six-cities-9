@@ -1,10 +1,12 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
-import {sortingOffers} from '../../store/action';
+import {sortingOffers} from '../../store/data-process/data-process';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {SORT_TYPES} from '../../const';
 
 function SortSelect(): JSX.Element {
-  const {sortType, selectedSortItem} = useAppSelector((state) => state);
+  // const {sortType, selectedSortItem} = useAppSelector((state) => state);
+  const sortType = useAppSelector(({DATA}) => DATA.sortType);
+  const selectedSortItem = useAppSelector(({DATA}) => DATA.selectedSortItem);
   const dispatch = useAppDispatch();
   const [selectIsOpen, setSelectIsOpen] = useState(false);
 
@@ -68,4 +70,4 @@ function SortSelect(): JSX.Element {
   );
 }
 
-export default SortSelect;
+export default React.memo(SortSelect);

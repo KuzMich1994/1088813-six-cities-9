@@ -14,8 +14,8 @@ type MainPageProps = {
 }
 
 function MainPage({changeIsActive, removeActiveId, activeOfferId}: MainPageProps): JSX.Element {
-  const city = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.filteredOffers);
+  const city = useAppSelector(({DATA}) => DATA.city);
+  const offers = useAppSelector(({DATA}) => DATA.filteredOffers);
 
   return (
     <div className="page page--gray page--main">

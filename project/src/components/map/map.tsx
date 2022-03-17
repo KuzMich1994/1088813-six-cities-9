@@ -3,8 +3,8 @@ import 'leaflet/dist/leaflet.css';
 import {MapPoints} from '../../types/map-points';
 import {Offer} from '../../types/offer';
 import {setMapView} from './helpers/set-map-view';
-import {setMarkers} from './helpers/set-markers';
 import useMap from '../../hooks/use-map';
+import leaflet, {LayerGroup, Marker} from 'leaflet';
 
 type MapProps = {
   mapSize: string;
@@ -18,10 +18,39 @@ function MapComponent({mapSize, points, activeId, offers}: MapProps): JSX.Elemen
   const cityPoint = offers[0].city.location;
   const map = useMap(mapRef, cityPoint);
 
+  const defaultMapIcon = leaflet.icon({
+    iconUrl: '/img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+  const currentMapIcon = leaflet.icon({
+    iconUrl: '/img/pin-active.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
   useEffect(() => {
+    const groupMarkers = new LayerGroup();
+
     if (map) {
       setMapView(cityPoint, map);
-      setMarkers(points, map, activeId);
+      points.forEach((point) => {
+        const marker = new Marker({
+          lat: point.latitude,
+          lng: point.longitude,
+        });
+
+        marker.setIcon(
+          activeId === point.id ? currentMapIcon : defaultMapIcon,
+        ).addTo(groupMarkers);
+      });
+
+      groupMarkers.addTo(map);
+
+      return () => {
+        map.removeLayer(groupMarkers);
+      };
     }
   }, [map, points, activeId, cityPoint]);
 

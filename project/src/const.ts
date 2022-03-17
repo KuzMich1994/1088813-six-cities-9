@@ -38,7 +38,6 @@ export enum SortType {
 export const BASE_URL = 'https://9.react.pages.academy/six-cities';
 
 export const REQUEST_TIMEOUT = 5000;
-export const TIMEOUT_SHOW_ERROR = 2000;
 
 export enum APIRoute {
   Hotels = '/hotels',
@@ -53,4 +52,11 @@ export enum HTTP_CODE {
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
+}
+
+export enum NameSpace {
+  data = 'DATA',
+  user = 'USER',
+  offers = 'OFFERS',
+  reviews = 'REVIEWS',
 }

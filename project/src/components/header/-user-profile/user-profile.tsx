@@ -4,17 +4,13 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../../const';
 
 function UserProfile(): JSX.Element {
-  const {userData} = useAppSelector((state) => state);
+  const userData = useAppSelector(({USER}) => USER.userData);
 
   return (
-    userData && userData.name ?
+    userData ?
       <Link className="header__nav-link header__nav-link--profile" to="/">
         <div className="header__avatar-wrapper user__avatar-wrapper">
-          {
-            userData.avatarUrl ?
-              <img src={userData.avatarUrl} alt={userData.name} style={{borderRadius: '100%'}}/> :
-              null
-          }
+          <img src={userData.avatarUrl} alt={userData.name} style={{borderRadius: '100%'}}/>
         </div>
         <span className="header__user-name user__name">{userData.name}</span>
       </Link> :

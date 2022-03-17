@@ -5,7 +5,7 @@ import {getRating} from '../../utils/common';
 import {useAppDispatch} from '../../hooks';
 import {fetchCurrentOffer} from '../../store/async-actions';
 import {store} from '../../store';
-import {changeDataLoaded} from '../../store/action';
+import {changeDataLoaded} from '../../store/data-process/data-process';
 
 type OfferCardProps = {
   offer: Offer;

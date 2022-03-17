@@ -28,7 +28,11 @@ function PropertyContent({activeId, changeIsActive, removeActiveId}: PropertyCon
     }
   }, [id, dispatch]);
 
-  const {currentOffer, isDataLoaded, neighborhoodOffers, authorizationStatus, offerReviews} = useAppSelector((state) => state);
+  const currentOffer = useAppSelector(({DATA}) => DATA.currentOffer);
+  const isDataLoaded = useAppSelector(({DATA}) => DATA.isDataLoaded);
+  const neighborhoodOffers = useAppSelector(({DATA}) => DATA.neighborhoodOffers);
+  const authorizationStatus = useAppSelector(({USER}) => USER.authorizationStatus);
+  const offerReviews = useAppSelector(({REVIEWS}) => REVIEWS.offerReviews);
 
   const points = neighborhoodOffers && getOfferPoints(neighborhoodOffers);
 
@@ -150,4 +154,4 @@ function PropertyContent({activeId, changeIsActive, removeActiveId}: PropertyCon
   );
 }
 
-export default PropertyContent;
+export default React.memo(PropertyContent);
