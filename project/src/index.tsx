@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import {offers} from './fixture/offers';
 import {Provider} from 'react-redux';
 import {store} from './store';
 import {checkAuthStatus, fetchOffersAction} from './store/async-actions';
@@ -19,7 +18,7 @@ ReactDOM.render(
     <Provider store={store}>
       <HistoryRoute history={browserHistory} basename={AppRoute.Root}>
         <ToastContainer/>
-        <App offers={offers}/>
+        <App/>
       </HistoryRoute>
     </Provider>
   </React.StrictMode>,
