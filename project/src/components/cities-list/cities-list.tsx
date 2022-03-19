@@ -1,10 +1,10 @@
 import React, {SyntheticEvent} from 'react';
 import {CITIES_LIST} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {cityChange} from '../../store/action';
+import {cityChange} from '../../store/data-process/data-process';
 
 function CitiesList(): JSX.Element {
-  const city = useAppSelector((state) => state.city);
+  const city = useAppSelector(({DATA}) => DATA.city);
   const dispatch = useAppDispatch();
 
   return (
@@ -38,4 +38,4 @@ function CitiesList(): JSX.Element {
   );
 }
 
-export default CitiesList;
+export default React.memo(CitiesList);

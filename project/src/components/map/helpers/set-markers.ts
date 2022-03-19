@@ -1,4 +1,4 @@
-import leaflet, {Map} from 'leaflet';
+import leaflet, {LayerGroup, Map, Marker} from 'leaflet';
 import {MapPoints} from '../../../types/map-points';
 
 export const setMarkers = (points: MapPoints[], map: Map, activeId: number | null) => {
@@ -14,12 +14,20 @@ export const setMarkers = (points: MapPoints[], map: Map, activeId: number | nul
     iconAnchor: [20, 40],
   });
 
+  const groupMarkers = new LayerGroup();
+
   points.forEach((point) => {
-    leaflet.marker({
+    const marker = new Marker({
       lat: point.latitude,
       lng: point.longitude,
-    }, {
-      icon: activeId === point.id ? currentMapIcon : defaultMapIcon,
-    }).addTo(map);
+    });
+
+    marker.setIcon(
+      activeId === point.id ? currentMapIcon : defaultMapIcon,
+    ).addTo(groupMarkers);
   });
+
+  groupMarkers.addTo(map);
+
+  return groupMarkers;
 };

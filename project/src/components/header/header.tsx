@@ -4,7 +4,7 @@ import {AppRoute} from '../../const';
 import {useAppDispatch} from '../../hooks';
 import {logoutAction} from '../../store/async-actions';
 import UserProfile from './-user-profile/user-profile';
-import {setUserData} from '../../store/action';
+import {setUserData} from '../../store/user-process/user-process';
 
 function Header(): JSX.Element {
 

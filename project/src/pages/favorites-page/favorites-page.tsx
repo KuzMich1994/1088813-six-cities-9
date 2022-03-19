@@ -2,14 +2,13 @@ import React from 'react';
 import Header from '../../components/header/header';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {Offer} from '../../types/offer';
 import FavoriteOfferCard from '../../components/favorite-offer-card/favorite-offer-card';
+import {useAppSelector} from '../../hooks';
+import FavoritesScreenEmpty from '../../components/favorites-screen-empty/favorites-screen-empty';
 
-type FavoritesPageProps = {
-  offers: Offer[];
-}
 
-function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
+function FavoritesPage(): JSX.Element {
+  const offers = useAppSelector(({DATA}) => DATA.offers);
   const favoritesOffers = offers.filter((offer) => offer.isFavorite);
   const citiesCollection = new Set<string>();
 
@@ -18,6 +17,10 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
   });
 
   const uniqueCities = Array.from(citiesCollection);
+
+  if (favoritesOffers.length === 0) {
+    return <FavoritesScreenEmpty/>;
+  }
 
   return (
     <div className="page">

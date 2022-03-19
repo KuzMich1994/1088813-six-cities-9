@@ -2,7 +2,7 @@ import React, {ChangeEvent, FormEvent, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {pushNewComment} from '../../store/async-actions';
 import {useParams} from 'react-router-dom';
-import {changeReviewsLoaded} from '../../store/action';
+import {changeReviewsLoaded} from '../../store/reviews-process/reviews-process';
 
 const STARS_MAX_COUNT = [
   5,
@@ -15,7 +15,7 @@ const STARS_MAX_COUNT = [
 function ReviewForm(): JSX.Element {
   const {id} = useParams<'id'>();
 
-  const {userData} = useAppSelector((state) => state);
+  const userData = useAppSelector(({USER}) => USER.userData);
   const initialState = {
     review: '',
     rating: '',
@@ -80,4 +80,4 @@ function ReviewForm(): JSX.Element {
   );
 }
 
-export default ReviewForm;
+export default React.memo(ReviewForm);

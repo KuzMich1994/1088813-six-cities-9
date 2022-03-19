@@ -7,22 +7,17 @@ import PropertyPage from '../../pages/property-page/property-page';
 import LoginPage from '../../pages/login-page/login-page';
 import Layout from '../layout/layout';
 import PrivateRoute from '../private-route/private-route';
-import {Offer} from '../../types/offer';
 import PropertyContent from '../property-content/property-content';
-import {Comment} from '../../types/comment';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import {useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner';
 import {isCheckedAuth} from '../../utils/common';
 
-type AppProps = {
-  offers: Offer[];
-  comments: Comment[];
-}
 
-function App({offers, comments}: AppProps): JSX.Element {
-  const {isDataLoaded, authorizationStatus} = useAppSelector((state) => state);
+function App(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<null | number>(null);
+  const isDataLoaded = useAppSelector(({DATA}) => DATA.isDataLoaded);
+  const authorizationStatus = useAppSelector(({USER}) => USER.authorizationStatus);
 
   const changeIsActive = (id: number) => {
     setActiveOfferId(id);
@@ -31,6 +26,20 @@ function App({offers, comments}: AppProps): JSX.Element {
   const removeActiveId = () => {
     setActiveOfferId(null);
   };
+
+  const handleChangeIsActive = useCallback(
+    (id: number) => {
+      changeIsActive(id);
+    },
+    [],
+  );
+
+  const handleRemoveActiveId = useCallback(
+    () => {
+      removeActiveId();
+    },
+    [],
+  );
 
   if (!isDataLoaded || isCheckedAuth(authorizationStatus)) {
     return (
@@ -45,8 +54,8 @@ function App({offers, comments}: AppProps): JSX.Element {
           path={AppRoute.Root}
           element={
             <MainPage
-              changeIsActive={changeIsActive}
-              removeActiveId={removeActiveId}
+              changeIsActive={handleChangeIsActive}
+              removeActiveId={handleRemoveActiveId}
               activeOfferId={activeOfferId}
             />
           }
@@ -55,7 +64,7 @@ function App({offers, comments}: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
-              <FavoritesPage offers={offers}/>
+              <FavoritesPage/>
             </PrivateRoute>
           }
         />

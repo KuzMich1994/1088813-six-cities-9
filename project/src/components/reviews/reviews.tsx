@@ -9,7 +9,7 @@ type ReviewsProps = {
 
 function Reviews({comments}: ReviewsProps): JSX.Element {
 
-  const isReviewsLoaded = useAppSelector((state) => state.isReviewsLoaded);
+  const isReviewsLoaded = useAppSelector(({REVIEWS}) => REVIEWS.isReviewsLoaded);
 
   return (
     <ul className="reviews__list" style={isReviewsLoaded ? {opacity: '1'} : {opacity: '0.5'}}>
@@ -22,4 +22,4 @@ function Reviews({comments}: ReviewsProps): JSX.Element {
   );
 }
 
-export default Reviews;
+export default React.memo(Reviews);
