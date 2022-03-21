@@ -1,13 +1,14 @@
 import React, {FormEvent, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {AuthData} from '../../types/auth-data';
 import {loginAction} from '../../store/async-actions';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const city = useAppSelector(({DATA}) => DATA.city);
 
   const dispatch = useAppDispatch();
 
@@ -72,9 +73,9 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link className="locations__item-link" to={AppRoute.Root}>
+                <span>{city}</span>
+              </Link>
             </div>
           </section>
         </div>

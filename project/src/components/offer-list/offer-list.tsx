@@ -13,7 +13,7 @@ function OfferList({offers, changeIsActive, removeActiveId, classNames}: OfferLi
   return (
     <div className={classNames}>
       {offers.map((offer) =>
-        <OfferCard key={offer.id} offer={offer} changeIsActive={changeIsActive} removeActiveId={removeActiveId} />,
+        <OfferCard key={offer.id} offer={offer} changeIsActive={changeIsActive} removeActiveId={removeActiveId}/>,
       )}
     </div>
   );

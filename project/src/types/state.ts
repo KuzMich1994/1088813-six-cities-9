@@ -15,9 +15,11 @@ export type DataProcess = {
   currentOffer: Offer | null;
   neighborhoodOffers: Offer[] | null;
   filteredOffers: Offer[];
-  city: string,
-  sortType: string,
-  selectedSortItem: number,
+  city: string;
+  sortType: string;
+  selectedSortItem: number;
+  isFavoritesChanged: boolean;
+  favoritesOffers: Offer[];
 };
 
 export type ReviewsProcess = {

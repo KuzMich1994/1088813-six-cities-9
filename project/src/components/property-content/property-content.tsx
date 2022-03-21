@@ -8,6 +8,7 @@ import MapComponent from '../map/map';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner';
 import {fetchCurrentOffer, fetchNeighborhoodOffers, getOfferReviews} from '../../store/async-actions';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 
 type PropertyContentProps = {
   activeId: number | null;
@@ -67,12 +68,7 @@ function PropertyContent({activeId, changeIsActive, removeActiveId}: PropertyCon
               <h1 className="property__name">
                 {currentOffer.title}
               </h1>
-              <button className="property__bookmark-button button" type="button">
-                <svg className="property__bookmark-icon" width="31" height="33">
-                  <use xlinkHref="#icon-bookmark" />
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
+              <BookmarkButton offer={currentOffer} isPropertyPage/>
             </div>
             <div className="property__rating rating">
               <div className="property__stars rating__stars">
