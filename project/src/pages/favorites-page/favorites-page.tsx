@@ -3,13 +3,15 @@ import Header from '../../components/header/header';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import FavoriteOfferCard from '../../components/favorite-offer-card/favorite-offer-card';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import FavoritesScreenEmpty from '../../components/favorites-screen-empty/favorites-screen-empty';
+import {loadFavoritesOffers} from '../../store/data-process/data-process';
 
 
 function FavoritesPage(): JSX.Element {
-  const offers = useAppSelector(({DATA}) => DATA.offers);
-  const favoritesOffers = offers.filter((offer) => offer.isFavorite);
+  const dispatch = useAppDispatch();
+  dispatch(loadFavoritesOffers());
+  const favoritesOffers = useAppSelector(({DATA}) => DATA.favoritesOffers);
   const citiesCollection = new Set<string>();
 
   favoritesOffers.forEach((offer) => {

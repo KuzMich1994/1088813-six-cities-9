@@ -6,6 +6,7 @@ import CitiesList from '../../components/cities-list/cities-list';
 import {useAppSelector} from '../../hooks';
 import {getOfferPoints} from '../../utils/common';
 import SortSelect from '../../components/sort-select/sort-select';
+import MainScreenEmpty from '../../components/main-screen-empty/main-screen-empty';
 
 type MainPageProps = {
   changeIsActive(id: number | null): void;
@@ -21,14 +22,14 @@ function MainPage({changeIsActive, removeActiveId, activeOfferId}: MainPageProps
     <div className="page page--gray page--main">
       <Header />
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${offers.length === 0 ? 'page__main--index-empty' : ''}`.trim()}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
             <CitiesList/>
           </section>
         </div>
-        {offers ?
+        {offers.length > 0 ?
           <div className="cities">
             <div className="cities__places-container container">
               <section className="cities__places places">
@@ -49,11 +50,7 @@ function MainPage({changeIsActive, removeActiveId, activeOfferId}: MainPageProps
               </div>
             </div>
           </div> :
-          <div className="cities">
-            <div className="cities__places-container container">
-              <span>Offers is Not defined</span>
-            </div>
-          </div>}
+          <MainScreenEmpty/>}
       </main>
     </div>
   );

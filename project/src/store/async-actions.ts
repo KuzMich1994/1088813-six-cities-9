@@ -3,7 +3,12 @@ import {api, store} from './index';
 import {Offer} from '../types/offer';
 import {Comment, PostComment} from '../types/comment';
 import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
-import {loadOffers, loadCurrentOffer, loadNeighborhoodOffers} from './data-process/data-process';
+import {
+  isFavoritesChangedState,
+  loadCurrentOffer,
+  loadNeighborhoodOffers,
+  loadOffers
+} from './data-process/data-process';
 import {redirectToRoute} from './action';
 import {requireAuthorization, setUserData} from './user-process/user-process';
 import {loadOfferReviews} from './reviews-process/reviews-process';
@@ -18,6 +23,7 @@ export const fetchOffersAction = createAsyncThunk(
     try {
       const {data} = await api.get<Offer[]>(APIRoute.Hotels);
       store.dispatch(loadOffers(data));
+      store.dispatch(isFavoritesChangedState(true));
     } catch (error) {
       errorHandle(error);
     }
@@ -45,6 +51,24 @@ export const fetchCurrentOffer = createAsyncThunk(
     } catch (error) {
       errorHandle(error);
       store.dispatch(redirectToRoute(`${AppRoute.Offer}/${id}/${AppRoute.Undefined}`));
+    }
+  },
+);
+
+export const changeIsFavorite = createAsyncThunk(
+  'data/changeIsFavorite',
+  async ({isFavorite, id, isPropertyPage}: {isFavorite: number, id: string, isPropertyPage?: boolean}) => {
+    try {
+      await api.post<{isFavorite: number, id: string}>(`${APIRoute.Favorite}/${id}/${isFavorite}`, isFavorite);
+      store.dispatch(fetchOffersAction());
+      if (isPropertyPage) {
+        store.dispatch(fetchCurrentOffer(id));
+      }
+      store.dispatch(fetchNeighborhoodOffers(id));
+    } catch (error) {
+      errorHandle(error);
+      store.dispatch(redirectToRoute(AppRoute.Login));
+      store.dispatch(isFavoritesChangedState(true));
     }
   },
 );

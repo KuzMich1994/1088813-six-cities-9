@@ -6,6 +6,8 @@ import {useAppDispatch} from '../../hooks';
 import {fetchCurrentOffer} from '../../store/async-actions';
 import {store} from '../../store';
 import {changeDataLoaded} from '../../store/data-process/data-process';
+import BookmarkButton from '../bookmark-button/bookmark-button';
+
 
 type OfferCardProps = {
   offer: Offer;
@@ -19,7 +21,13 @@ function OfferCard({offer, changeIsActive, removeActiveId}: OfferCardProps): JSX
   return (
     <article
       onMouseEnter={() => changeIsActive(offer.id)} onMouseLeave={removeActiveId}
-      onClick={() => {
+      onClick={(e) => {
+        const target = e.target as HTMLDivElement;
+
+        if (target.closest('.place-card__bookmark-button')) {
+          return;
+        }
+
         store.dispatch(changeDataLoaded(false));
         dispatch(fetchCurrentOffer(String(offer.id)));
       }}
@@ -41,12 +49,7 @@ function OfferCard({offer, changeIsActive, removeActiveId}: OfferCardProps): JSX
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"/>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarkButton offer={offer}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

@@ -12,6 +12,8 @@ const initialState: DataProcess = {
   city: 'Paris',
   sortType: 'Popular',
   selectedSortItem: 0,
+  isFavoritesChanged: false,
+  favoritesOffers: [],
 };
 
 export const dataProcess = createSlice({
@@ -20,7 +22,7 @@ export const dataProcess = createSlice({
   reducers: {
     loadOffers: (state, action) => {
       state.offers = action.payload;
-      state.filteredOffers = state.offers.filter((offer) => offer.city.name === 'Paris');
+      state.filteredOffers = state.offers.filter((offer) => offer.city.name === state.city);
       state.isDataLoaded = true;
     },
     cityChange: (state, action) => {
@@ -64,7 +66,13 @@ export const dataProcess = createSlice({
       state.currentOffer = action.payload;
       state.isDataLoaded = true;
     },
+    isFavoritesChangedState: (state, action) => {
+      state.isFavoritesChanged = action.payload;
+    },
+    loadFavoritesOffers: (state) => {
+      state.favoritesOffers = state.offers.filter((offer) => offer.isFavorite);
+    },
   },
 });
 
-export const {loadOffers, loadNeighborhoodOffers, changeDataLoaded, cityChange, sortingOffers, loadCurrentOffer} = dataProcess.actions;
+export const {loadOffers, loadNeighborhoodOffers, changeDataLoaded, cityChange, sortingOffers, loadCurrentOffer, isFavoritesChangedState, loadFavoritesOffers} = dataProcess.actions;
