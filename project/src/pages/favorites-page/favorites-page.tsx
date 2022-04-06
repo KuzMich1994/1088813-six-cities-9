@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Header from '../../components/header/header';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import FavoriteOfferCard from '../../components/favorite-offer-card/favorite-offer-card';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import FavoritesScreenEmpty from '../../components/favorites-screen-empty/favorites-screen-empty';
-import {loadFavoritesOffers} from '../../store/data-process/data-process';
+import {fetchFavoriteOffers} from '../../store/async-actions';
+import {cityChange} from '../../store/data-process/data-process';
+import Spinner from '../../components/spinner/spinner';
 
 
 function FavoritesPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  dispatch(loadFavoritesOffers());
+  const isFavoriteChanged = useAppSelector(({DATA}) => DATA.isFavoritesChanged);
+  useEffect(() => {
+    dispatch(fetchFavoriteOffers());
+  }, [dispatch, isFavoriteChanged]);
   const favoritesOffers = useAppSelector(({DATA}) => DATA.favoritesOffers);
   const citiesCollection = new Set<string>();
 
@@ -22,6 +27,10 @@ function FavoritesPage(): JSX.Element {
 
   if (favoritesOffers.length === 0) {
     return <FavoritesScreenEmpty/>;
+  }
+
+  if (!isFavoriteChanged) {
+    return <Spinner/>;
   }
 
   return (
@@ -38,9 +47,15 @@ function FavoritesPage(): JSX.Element {
                   <li key={city} className="favorites__locations-items">
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
-                        <a className="locations__item-link" href="#">
+                        <Link
+                          onClick={() => {
+                            dispatch(cityChange(city));
+                          }}
+                          className="locations__item-link"
+                          to={AppRoute.Root}
+                        >
                           <span>{city}</span>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                     <div className="favorites__places">

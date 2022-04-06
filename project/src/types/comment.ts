@@ -3,6 +3,7 @@ export type User = {
   id: number;
   isPro: boolean;
   name: string;
+  email: string;
 }
 
 export type Comment = {

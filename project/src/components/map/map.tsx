@@ -52,7 +52,7 @@ function MapComponent({mapSize, points, activeId, offers}: MapProps): JSX.Elemen
         map.removeLayer(groupMarkers);
       };
     }
-  }, [map, points, activeId, cityPoint]);
+  }, [map, points, activeId, cityPoint, currentMapIcon, defaultMapIcon]);
 
   return (
     <div ref={mapRef} style={{maxWidth: `${mapSize}`, overflow: 'hidden', height: '100%', margin: 'auto'}}>
