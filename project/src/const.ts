@@ -60,3 +60,5 @@ export enum NameSpace {
   offers = 'OFFERS',
   reviews = 'REVIEWS',
 }
+
+export const DEFAULT_CITY = 'Paris';

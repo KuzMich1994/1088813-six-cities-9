@@ -5,7 +5,7 @@ import {Comment, PostComment} from '../types/comment';
 import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
 import {
   isFavoritesChangedState,
-  loadCurrentOffer,
+  loadCurrentOffer, loadFavoritesOffers,
   loadNeighborhoodOffers,
   loadOffers
 } from './data-process/data-process';
@@ -73,6 +73,18 @@ export const changeIsFavorite = createAsyncThunk(
   },
 );
 
+export const fetchFavoriteOffers = createAsyncThunk(
+  'data/fetchFavoriteOffers',
+  async () => {
+    try {
+      const {data} = await api.get(APIRoute.Favorite);
+      store.dispatch(loadFavoritesOffers(data));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
 export const getOfferReviews = createAsyncThunk(
   'data/getOfferReviews',
   async (id: string) => {
@@ -101,8 +113,8 @@ export const pushNewComment = createAsyncThunk(
 export const getUserEmail = createAsyncThunk(
   'user/getUserEmail',
   async () => {
-    const {data: {avatarUrl, id, isPro, name}} = await api.get(APIRoute.Login);
-    store.dispatch(setUserData({avatarUrl, id, name, isPro}));
+    const {data: {avatarUrl, id, isPro, name, email}} = await api.get(APIRoute.Login);
+    store.dispatch(setUserData({avatarUrl, id, name, isPro, email}));
   },
 );
 

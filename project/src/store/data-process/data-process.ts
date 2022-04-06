@@ -1,6 +1,6 @@
 import {DataProcess} from '../../types/state';
 import {createSlice} from '@reduxjs/toolkit';
-import {NameSpace, SortType} from '../../const';
+import {DEFAULT_CITY, NameSpace, SortType} from '../../const';
 
 
 const initialState: DataProcess = {
@@ -9,8 +9,8 @@ const initialState: DataProcess = {
   currentOffer: null,
   neighborhoodOffers: null,
   filteredOffers: [],
-  city: 'Paris',
-  sortType: 'Popular',
+  city: DEFAULT_CITY,
+  sortType: SortType.Popular,
   selectedSortItem: 0,
   isFavoritesChanged: false,
   favoritesOffers: [],
@@ -69,8 +69,8 @@ export const dataProcess = createSlice({
     isFavoritesChangedState: (state, action) => {
       state.isFavoritesChanged = action.payload;
     },
-    loadFavoritesOffers: (state) => {
-      state.favoritesOffers = state.offers.filter((offer) => offer.isFavorite);
+    loadFavoritesOffers: (state, action) => {
+      state.favoritesOffers = action.payload;
     },
   },
 });
