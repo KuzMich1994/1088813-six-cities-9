@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from '../../components/header/header';
 import OfferList from '../../components/offer-list/offer-list';
 import MapComponent from '../../components/map/map';

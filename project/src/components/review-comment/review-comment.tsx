@@ -1,4 +1,3 @@
-import React from 'react';
 import {getRating} from '../../utils/common';
 import dayjs from 'dayjs';
 import {Comment} from '../../types/comment';

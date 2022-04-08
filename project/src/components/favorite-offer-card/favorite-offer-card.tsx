@@ -1,4 +1,3 @@
-import React from 'react';
 import {Offer} from '../../types/offer';
 import {getRating} from '../../utils/common';
 import {Link} from 'react-router-dom';

@@ -1,4 +1,3 @@
-import React from 'react';
 
 function MainScreenEmpty(): JSX.Element {
   return (
@@ -14,7 +13,7 @@ function MainScreenEmpty(): JSX.Element {
             </p>
           </div>
         </section>
-        <div className="cities__right-section"></div>
+        <div className="cities__right-section"/>
       </div>
     </div>
   );

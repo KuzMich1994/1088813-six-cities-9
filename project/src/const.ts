@@ -55,10 +55,9 @@ export enum HTTP_CODE {
 }
 
 export enum NameSpace {
-  data = 'DATA',
-  user = 'USER',
-  offers = 'OFFERS',
-  reviews = 'REVIEWS',
+  Data = 'DATA',
+  User = 'USER',
+  Reviews = 'REVIEWS',
 }
 
 export const DEFAULT_CITY = 'Paris';

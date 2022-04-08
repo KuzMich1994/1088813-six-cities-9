@@ -1,7 +1,7 @@
-import React, {SyntheticEvent} from 'react';
+import {SyntheticEvent} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {AppRoute} from '../../const';
-import {useAppDispatch} from '../../hooks';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/async-actions';
 import UserProfile from './-user-profile/user-profile';
 import {setUserData} from '../../store/user-process/user-process';
@@ -10,6 +10,7 @@ function Header(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const authorizationStatus = useAppSelector(({USER}) => USER.authorizationStatus);
 
   return (
     <header className="header">
@@ -25,17 +26,21 @@ function Header(): JSX.Element {
               <li className="header__nav-item user">
                 <UserProfile/>
               </li>
-              <li className="header__nav-item">
-                <a onClick={(e: SyntheticEvent) => {
-                  e.preventDefault();
-                  dispatch(logoutAction());
-                  navigate(AppRoute.Login);
-                  dispatch(setUserData(null));
-                }} className="header__nav-link" href="/signOut"
-                >
-                  <span className="header__signout">Sign out</span>
-                </a>
-              </li>
+              {
+                authorizationStatus === AuthorizationStatus.Authorize ?
+                  <li className="header__nav-item">
+                    <a onClick={(e: SyntheticEvent) => {
+                      e.preventDefault();
+                      dispatch(logoutAction());
+                      navigate(AppRoute.Login);
+                      dispatch(setUserData(null));
+                    }} className="header__nav-link" href="/signOut"
+                    >
+                      <span className="header__signout">Sign out</span>
+                    </a>
+                  </li> :
+                  null
+              }
             </ul>
           </nav>
         </div>

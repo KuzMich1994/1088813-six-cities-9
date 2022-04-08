@@ -1,4 +1,4 @@
-import React, {FormEvent, useRef} from 'react';
+import {FormEvent, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
@@ -66,6 +66,7 @@ function LoginPage(): JSX.Element {
                   placeholder="Password"
                   required
                   ref={passwordRef}
+                  pattern={'^(?=.*[0-9])(?=.*[a-zA-Z]).{2,}$'}
                 />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import 'leaflet/dist/leaflet.css';
 import {MapPoints} from '../../types/map-points';
 import {Offer} from '../../types/offer';

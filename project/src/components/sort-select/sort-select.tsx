@@ -4,7 +4,6 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {SORT_TYPES} from '../../const';
 
 function SortSelect(): JSX.Element {
-  // const {sortType, selectedSortItem} = useAppSelector((state) => state);
   const sortType = useAppSelector(({DATA}) => DATA.sortType);
   const selectedSortItem = useAppSelector(({DATA}) => DATA.selectedSortItem);
   const dispatch = useAppDispatch();

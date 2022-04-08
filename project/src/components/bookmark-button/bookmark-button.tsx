@@ -1,9 +1,9 @@
-import React from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {isFavoritesChangedState} from '../../store/data-process/data-process';
 import {changeIsFavorite} from '../../store/async-actions';
 import {Offer} from '../../types/offer';
 import MiniSpinner from '../mini-spinner/mini-spinner';
+import {AuthorizationStatus} from '../../const';
 
 type BookmarkButtonProps = {
   offer: Offer;
@@ -12,14 +12,15 @@ type BookmarkButtonProps = {
 
 function BookmarkButton({offer, isPropertyPage}: BookmarkButtonProps): JSX.Element {
   const isFavoritesChanged = useAppSelector(({DATA}) => DATA.isFavoritesChanged);
+  const authorizationStatus = useAppSelector(({USER}) => USER.authorizationStatus);
   const dispatch = useAppDispatch();
   const isFavorite = offer.isFavorite;
 
   let activeClassName;
 
-  if (isFavorite && isPropertyPage) {
+  if (isFavorite && isPropertyPage && authorizationStatus === AuthorizationStatus.Authorize) {
     activeClassName = 'property__bookmark-button--active';
-  } else if (isFavorite && !isPropertyPage) {
+  } else if (isFavorite && !isPropertyPage && authorizationStatus === AuthorizationStatus.Authorize) {
     activeClassName = 'place-card__bookmark-button--active';
   } else {
     activeClassName = '';

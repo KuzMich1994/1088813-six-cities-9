@@ -1,4 +1,4 @@
-import React, {PropsWithChildren} from 'react';
+import {PropsWithChildren} from 'react';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {Navigate} from 'react-router-dom';
 

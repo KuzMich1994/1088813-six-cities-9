@@ -33,7 +33,7 @@ function PropertyContent({activeId, changeIsActive, removeActiveId}: PropertyCon
   const isDataLoaded = useAppSelector(({DATA}) => DATA.isDataLoaded);
   const neighborhoodOffers = useAppSelector(({DATA}) => DATA.neighborhoodOffers);
   const authorizationStatus = useAppSelector(({USER}) => USER.authorizationStatus);
-  const offerReviews = useAppSelector(({REVIEWS}) => REVIEWS.offerReviews);
+  const sortedReviews = useAppSelector(({REVIEWS}) => REVIEWS.sortedReviews);
 
   const points = neighborhoodOffers && getOfferPoints(neighborhoodOffers);
 
@@ -125,8 +125,8 @@ function PropertyContent({activeId, changeIsActive, removeActiveId}: PropertyCon
               </div>
             </div>
             <section className="property__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerReviews.length}</span></h2>
-              {offerReviews ? <Reviews comments={offerReviews}/> : null}
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{sortedReviews.length}</span></h2>
+              {sortedReviews ? <Reviews comments={sortedReviews}/> : null}
               {isAuthorize(authorizationStatus) ? <ReviewForm/> : null}
             </section>
           </div>

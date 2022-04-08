@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import Header from '../../components/header/header';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';

@@ -23,8 +23,9 @@ export type DataProcess = {
 };
 
 export type ReviewsProcess = {
-  offerReviews: Comment[],
-  isReviewsLoaded: boolean,
+  offerReviews: Comment[];
+  isReviewsLoaded: boolean;
+  sortedReviews: Comment[];
 }
 
 export type State = ReturnType<typeof store.getState>;

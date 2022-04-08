@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from '../header/header';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
