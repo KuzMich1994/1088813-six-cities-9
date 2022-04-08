@@ -5,6 +5,7 @@ import {cityChange} from '../../store/data-process/data-process';
 
 function CitiesList(): JSX.Element {
   const city = useAppSelector(({DATA}) => DATA.city);
+
   const dispatch = useAppDispatch();
 
   return (
